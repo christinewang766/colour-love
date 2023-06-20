@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styles from '../styling/Home.module.css'
-
+import { useEffect, useState } from 'react';
+import ThemeStyles from '../styling/Theme.module.css'
+import { useNavigate } from 'react-router-dom';
 
 type DropDownProps = {
   colours: string[];
@@ -14,9 +14,7 @@ const DropDown = ({
   colourSelection,
 }: DropDownProps) => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
-  const onClickHandler = (colour: string): void => {
-    colourSelection(colour);
-  };
+
 
   useEffect(() => {
     setShowDropDown(showDropDown);
@@ -35,21 +33,25 @@ const DropDown = ({
     e.target.style.background = 'white';
   }
 
+  const navigate = useNavigate();
   
   return (
     <>
       {colours.map(
         (colour: string, index: number) => {
           return (
-            <p className={styles.dropDown}
+            <p className={ThemeStyles.button}
+            style={{width: '120px', margin: '0', height: 'auto'}}
               key={index}
               id={colour}
               onMouseEnter={onHover}
               onMouseLeave={onLeave}
               onClick={(): void => {
-                onClickHandler(colour);
+                colourSelection(colour);
+                navigate('palette');
               }}
             >
+              {/* <Link to="/palette"/> */}
               {colour}
             </p>
           );
