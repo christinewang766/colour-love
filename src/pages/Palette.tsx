@@ -100,7 +100,7 @@ export function Palette() {
               color: "#481D52",
               borderColor: "#481D52",
             }}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
           >
             Return Home
           </button>

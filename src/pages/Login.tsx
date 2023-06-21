@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useSound from 'use-sound';
 import Woof from "../components/woof.mp3";
-import Megalovania from "../components/megalovania.mp3";
 
 // BALL CODE INSPO: https://codepen.io/reginabattle/pen/RvyjWy
 let ball = document.getElementById("ball");

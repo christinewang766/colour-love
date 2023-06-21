@@ -21,8 +21,8 @@ export function Home() {
   const navigate = useNavigate();
   // ==========================================================================
   return (
-    <div className={ThemeStyles.outerFrame}>
-      <div className={ThemeStyles.innerFrame}>
+    <div className={ThemeStyles.outerFrame} style={{ background: "#DD517E" }}>
+    <div className={ThemeStyles.innerFrame} style={{ background: "#7A98ED" }}>
         <img src={Saved} />
         <button
           className={ThemeStyles.button}
