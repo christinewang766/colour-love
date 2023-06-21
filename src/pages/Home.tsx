@@ -1,4 +1,4 @@
-import Icon from "../components/icon.svg";
+import Saved from "../components/saved.svg";
 import ThemeStyles from "../styling/Theme.module.css";
 import { useState } from "react";
 import DropDown from "../components/DropDown";
@@ -14,9 +14,6 @@ export function Home() {
     return ["Red", "Green", "Blue"];
   };
 
-  /**
-   * Toggle the drop down menu
-   */
   const toggleDropDown = () => {
     setShowDropDown(!showDropDown);
   };
@@ -25,20 +22,8 @@ export function Home() {
   // ==========================================================================
   return (
     <div className={ThemeStyles.outerFrame}>
-      <div
-        style={{
-          padding: "20px",
-          height: "80%",
-          width: "80%",
-          background: "#DD517E",
-          border: "5px solid black",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <img src={Icon} />
+      <div className={ThemeStyles.innerFrame}>
+        <img src={Saved} />
         <button
           className={ThemeStyles.button}
           style={{ border: "5px solid #481D52" }}
@@ -47,7 +32,6 @@ export function Home() {
             navigate("palette");
           }}
         >
-          {" "}
           Surprise Me
         </button>
         <button

@@ -1,11 +1,15 @@
 /* swatch container */
 .title {
-font-size: 50px;
-font-style: oblique;
-font-weight: bolder;
-color: #556cc9;
--webkit-text-fill-color: white;
--webkit-text-stroke: 1px;
+  font-size: 60px;
+  font-style: oblique;
+  font-weight: bolder;
+  text-align: center  ;
+  color: #556cc9;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke: 1px;
+  @media only screen and (max-width: 400px) {
+    font-size: 40px;
+  }
 }
 
 .swatchContainer {
@@ -16,18 +20,36 @@ color: #556cc9;
   justify-content: center;
   background: #fcf7f3;
   border: 3px solid #000000;
-  padding-top:20px;
+  padding-top: 20px;
   padding-left: 10px;
   padding-right: 10px;
+  @media only screen and (max-width: 400px) {
+    flex-direction: column;
+  }
+  @media only screen and (max-width: 530px) and (min-width: 401px) {
+    width: 90%;
+  }
 }
 
 .swatchBox {
   box-sizing: border-box;
   width: 108px;
   height: 108px;
-
   background: #e9e1d6;
   border: 2px solid #000000;
+
+  @media only screen and (max-width: 400px) {
+    width: max-width;
+    height: max-width;
+  }
+  @media only screen and (max-width: 480px) and (min-width: 401px) {
+    width: 50px;
+    height: 50px;
+  }
+  @media only screen and (max-width: 635px) and (min-width: 481px) {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 .swatchHex {
@@ -40,10 +62,22 @@ color: #556cc9;
   background: white;
   border: 2px solid #000000;
   letter-spacing: 1px;
+
+  @media only screen and (max-width: 400px) {
+    width: max-width;
+  }
+  @media only screen and (max-width: 480px) and (min-width: 401px) {
+    width: 50px;
+    font-size: 7px;
+  }
+  @media only screen and (max-width: 635px) and (min-width: 481px) {
+    width: 70px;
+    font-size: 12px;
+  }
 }
 
 .returnContainer {
-display:flex;
+  display: flex;
   margin-top: 20px;
   align-items: center;
   flex-direction: row;
@@ -55,4 +89,39 @@ display:flex;
   border-radius: 20px;
   padding-left: 10px;
   padding-right: 10px;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+    height: 150px;
+    }
+    @media only screen and (max-width: 510px) and (min-width: 481px) {
+      width: 90%;
+      }
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 64px;
+  background: #ffffff;
+  border: 5px solid #556cc9;
+  border-radius: 20px;
+  font-size: 22px;
+  font-family: monospace;
+  @media only screen and (max-width: 480px) {
+    width: 160px;
+    font-size: 18px;
+    height: 50px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+}
+
+.buttonGap {
+  padding-left: 20px;
+  padding-right: 20px;
+  @media only screen and (max-width: 480px) {
+    padding: 0;
+  }
 }
