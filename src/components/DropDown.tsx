@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import ThemeStyles from '../styling/Theme.module.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux"
+import { redState, greenState, blueState } from "../components/actions/stateTypes";
 
 type DropDownProps = {
   colours: string[];
   showDropDown: boolean;
   toggleDropDown: Function;
-  colourSelection: Function;
 };
 
 const DropDown = ({
   colours,
-  colourSelection,
 }: DropDownProps) => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
@@ -34,6 +34,7 @@ const DropDown = ({
   }
 
   const navigate = useNavigate();
+  const dispatch = useDispatch(); 
   
   return (
     <>
@@ -41,17 +42,22 @@ const DropDown = ({
         (colour: string, index: number) => {
           return (
             <p className={ThemeStyles.button}
-            style={{width: '120px', margin: '0', height: 'auto'}}
+            style={{width: '80px', margin: '0', height: 'auto'}}
               key={index}
               id={colour}
               onMouseEnter={onHover}
               onMouseLeave={onLeave}
               onClick={(): void => {
-                colourSelection(colour);
                 navigate('palette');
+                if(JSON.stringify({colour}) == "{\"colour\":\"Red\"}"){
+                  dispatch(redState());
+                } else if (JSON.stringify({colour}) == "{\"colour\":\"Green\"}"){
+                  dispatch(greenState());
+                } else {
+                  dispatch(blueState());
+                }
               }}
             >
-              {/* <Link to="/palette"/> */}
               {colour}
             </p>
           );

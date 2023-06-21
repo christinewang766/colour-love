@@ -3,10 +3,13 @@ import ThemeStyles from "../styling/Theme.module.css";
 import { useState } from "react";
 import DropDown from "../components/DropDown";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { randomState } from "../components/actions/stateTypes";
 
 export function Home() {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
-  const [selectColour, setSelectColour] = useState<string>("");
+  const dispatch = useDispatch(); 
+
   const colours = () => {
     return ["Red", "Green", "Blue"];
   };
@@ -16,10 +19,6 @@ export function Home() {
    */
   const toggleDropDown = () => {
     setShowDropDown(!showDropDown);
-  };
-
-  const colourSelection = (colour: string): void => {
-    setSelectColour(colour);
   };
 
   const navigate = useNavigate();
@@ -40,7 +39,10 @@ export function Home() {
         }}
       >
         <img src={Icon} />
-        <button className={ThemeStyles.button} style={{border: '5px solid #481D52'}} onClick={() => navigate('palette')}> Surprise Me
+        <button className={ThemeStyles.button} style={{border: '5px solid #481D52'}} onClick={() => {
+          dispatch(randomState());
+          navigate('palette');
+        }}> Surprise Me
         </button>
         <button
           className={ThemeStyles.button}
@@ -49,13 +51,11 @@ export function Home() {
           Random RGB
         </button>
 
-        <div>{selectColour ? "Select: " + selectColour : "Select ..."} </div>
         {showDropDown && (
           <DropDown
             colours={colours()}
             showDropDown={false}
             toggleDropDown={(): void => toggleDropDown()}
-            colourSelection={colourSelection}
           />
         )}
       </div>
