@@ -1,4 +1,13 @@
 /* swatch container */
+.title {
+font-size: 50px;
+font-style: oblique;
+font-weight: bolder;
+color: #556cc9;
+-webkit-text-fill-color: white;
+-webkit-text-stroke: 1px;
+}
+
 .swatchContainer {
   display: flex;
   width: 100%;

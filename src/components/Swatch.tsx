@@ -1,10 +1,7 @@
 import PaletteStyles from "../styling/Palette.module.css";
 
-type SwatchProps = {
-    hex: string;
-  };
-  
-const Swatch = ({ hex }: SwatchProps) => {
+
+const Swatch = ({ hex }: string) => {
   
     return (
         <div style={{display:'flex', flexDirection:'column', padding:'15px'}}>
