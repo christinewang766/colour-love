@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useState } from "react";
 
-export function RegisterPage() {
+export function LoginRegister() {
   const navigate = useNavigate();
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
@@ -19,6 +19,24 @@ export function RegisterPage() {
       console.log(response);
     });
   };
+
+  // https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
+  function isAlphaNumeric(str: string): boolean {
+    var code, i, len;
+
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i);
+      if (
+        !(code > 47 && code < 58) && // numeric (0-9)
+        !(code > 64 && code < 91) && // upper alpha (A-Z)
+        !(code > 96 && code < 123)
+      ) {
+        // lower alpha (a-z)
+        return false;
+      }
+    }
+    return true;
+  }
 
   return (
     <div className={ThemeStyles.outerFrame}>
@@ -37,15 +55,18 @@ export function RegisterPage() {
             style={{ maxWidth: "80px", paddingRight: "25px" }}
             alt="icon"
           />
-          <h1 className={PaletteStyles.title}>Register</h1>
+          <h1 className={PaletteStyles.title}>Welcome</h1>
         </div>
         <form
           id="form"
           onSubmit={() => {
-            register();
-            setUsernameReg("");
-            setPasswordReg("");
-            document.getElementById("form").reset();
+            if (!isAlphaNumeric(usernameReg) || !isAlphaNumeric(passwordReg)) {
+              alert(
+                "Username and password must only contain numbers and letters."
+              );
+            } else {
+              register();
+            }
           }}
         >
           <div className={FormStyles.container}>
@@ -89,4 +110,4 @@ export function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default LoginRegister;

@@ -18,11 +18,6 @@ export function Login() {
         (cursor.style.top = e.clientY + "px");
   });
 
-  const handleMouseHover = () => {
-    setClicked(false);
-    stop();
-  };
-
   const handleIconClick = () => {
     setClicked(!clicked);
     playWoof();
@@ -38,7 +33,7 @@ export function Login() {
             color: clicked ? "white" : "#7A98ED",
           }}
         >
-          Want to login? You'll have to be faster than Woofie!
+          Want to enter? You'll have to be faster than Woofie!
         </h1>
         <button style={{ background: "none", border: "none" }}>
           <img
@@ -65,17 +60,6 @@ export function Login() {
         ></img>
         <button
           className={ThemeStyles.button}
-          style={{ border: "5px solid #556CC9" }}
-          onClick={() => {
-            stop();
-            navigate("login");
-          }}
-        >
-          Login
-        </button>
-        <button
-          className={ThemeStyles.button}
-          onMouseEnter={() => handleMouseHover()}
           style={{
             color: "white",
             background: "#556CC9",
@@ -83,19 +67,11 @@ export function Login() {
           }}
           onClick={() => {
             stop();
-            navigate("register");
+            navigate("loginregister");
           }}
         >
-          Register
+          Welcome
         </button>
-        <h4
-          style={{
-            fontFamily: "cursive",
-            color: clicked ? "white" : "#7A98ED",
-          }}
-        >
-          Or...go ahead and register :D
-        </h4>
         <p
           style={{
             fontFamily: "cursive",
