@@ -21,7 +21,7 @@ export function LoginPage() {
           <img
             onClick={() => navigate("/")}
             src={Icon}
-            style={{ maxWidth: "60px", paddingRight: "20px" }}
+            style={{ maxWidth: "80px", paddingRight: "25px" }}
             alt="icon"
           />
           <h1 className={PaletteStyles.title}>Login</h1>

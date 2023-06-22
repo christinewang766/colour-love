@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   background: #fcf7f3;
+  max-width: 90%;
   width: auto;
   height: auto;
   padding: 20px;
@@ -18,18 +19,21 @@
 }
 
 .input {
+  display: flex;
   border: 3px solid black;
   border-radius: 20px;
-  width: 400px;
   padding: 10px;
   font-family: monospace;
+  width: 200px;
   font-style: italic;
   font-weight: 800;
+  @media only screen and (min-width: 550px) {
+    width: 400px;
+  }
 }
 
 .button {
     padding: 5px 10px;
-
     background: #FFFFFF;
     border: 5px solid #BF7037;
     color: #BF7037;
@@ -37,4 +41,7 @@
     font-size: 18px;
     font-weight: 600;
     font-family: monospace;
+    @media only screen and (min-width: 580px) {
+      /* width: 400px; */
+    }
   }
