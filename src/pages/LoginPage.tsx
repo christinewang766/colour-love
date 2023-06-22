@@ -1,7 +1,7 @@
 import ThemeStyles from "../styling/Theme.module.css";
 import FormStyles from "../styling/Form.module.css";
 import PaletteStyles from "../styling/Palette.module.css";
-import Icon from "../components/icon.svg";
+import Icon from "../components/images/icon.svg";
 import { useNavigate } from "react-router-dom";
 
 export function LoginPage() {

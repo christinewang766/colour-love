@@ -1,21 +1,22 @@
-import Icon from "../components/icon.svg";
-import Dog from "../components/dog.jpg";
+import Icon from "../components/images/icon.svg";
+import Dog from "../components/images/dogIcon.svg";
 import ThemeStyles from "../styling/Theme.module.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSound from "use-sound";
 import Woof from "../components/woof.mp3";
-
-// BALL CODE INSPO: https://codepen.io/reginabattle/pen/RvyjWy
-// let ballX = 0;
-// let ballY = 0;
-
-// let speed = 0.001;
-// USE TIME (measure time, save it, measure, difference ==> modify speed)
 
 export function Login() {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState<boolean>(false);
+  const [playWoof, { stop }] = useSound(Woof, { volume: 1 });
+
+  var cursor = document.getElementById("cursor");
+  document.body.addEventListener("mousemove", function (e) {
+    if (cursor)
+      (cursor.style.left = e.clientX + "px"),
+        (cursor.style.top = e.clientY + "px");
+  });
 
   const handleMouseHover = () => {
     setClicked(false);
@@ -26,15 +27,6 @@ export function Login() {
     setClicked(!clicked);
     playWoof();
   };
-
-  const [playWoof, { stop }] = useSound(Woof, { volume: 1 });
-
-  var cursor = document.getElementById("cursor");
-  document.body.addEventListener("mousemove", function (e) {
-    if (cursor)
-      (cursor.style.left = e.clientX + "px"),
-        (cursor.style.top = e.clientY + "px");
-  });
 
   // ==========================================================================
   return (
@@ -51,6 +43,7 @@ export function Login() {
         <button style={{ background: "none", border: "none" }}>
           <img
             src={Icon}
+            className={ThemeStyles.grow}
             id="icon"
             style={{ visibility: clicked ? "hidden" : "visible" }}
             onClick={() => handleIconClick()}
@@ -61,12 +54,7 @@ export function Login() {
             position: "fixed",
             borderRadius: "50%",
             transform: "translateX(-50%) translateY(-50%)",
-            pointerEvents: "none",
-            left: "-100px",
-            top: "50%",
-            backgroundColor: "transparent",
             zIndex: "10000",
-            border: "3px solid black",
             visibility: clicked ? "visible" : "hidden",
             height: "200px",
             width: "200px",
