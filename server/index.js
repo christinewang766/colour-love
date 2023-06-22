@@ -14,15 +14,32 @@ const db = mysql.createConnection({
 });
 
 app.post("/register", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-    const username = req.body.username;
-    const password = req.body.password;
-    
   db.query(
     "INSERT INTO users (username, password) VALUES (?,?)",
     [username, password],
     (err, result) => {
       console.log(err);
+    }
+  );
+});
+
+app.post("/login", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  db.query(
+    "SELECT * FROM users WHERE username == ? AND password == ?",
+    [username, password],
+    (err, result) => {
+      if (err) res.send({ err: err });
+      if (result) {
+        res.send(result);
+      } else {
+        res.send({ message: "Wrong username or password!" });
+      }
     }
   );
 });

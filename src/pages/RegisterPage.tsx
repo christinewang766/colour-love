@@ -39,37 +39,51 @@ export function RegisterPage() {
           />
           <h1 className={PaletteStyles.title}>Register</h1>
         </div>
-        <div className={FormStyles.container}>
-          <div style={{ display: "grid", padding: "20px" }}>
-            <label className={FormStyles.label}>Username:</label>
+        <form
+          id="form"
+          onSubmit={() => {
+            register();
+            setUsernameReg("");
+            setPasswordReg("");
+            document.getElementById("form").reset();
+          }}
+        >
+          <div className={FormStyles.container}>
+            <div style={{ display: "grid", padding: "20px" }}>
+              <label className={FormStyles.label}>Username:</label>
+              <input
+                required
+                type="text"
+                className={FormStyles.input}
+                placeholder="ex. ComputerScienceIsSoCool"
+                onChange={(e) => {
+                  setUsernameReg(e.target.value);
+                }}
+              />
+              <label
+                style={{ paddingTop: "20px" }}
+                className={FormStyles.label}
+              >
+                Password:
+              </label>
+              <input
+                required
+                type="text"
+                className={FormStyles.input}
+                placeholder="ex. mustOnlyBeAlphaNum766"
+                onChange={(e) => {
+                  setPasswordReg(e.target.value);
+                }}
+              />
+            </div>
             <input
-              type="text"
-              className={FormStyles.input}
-              placeholder="ex. ComputerScienceIsSoCool"
-              onChange={(e) => {
-                setUsernameReg(e.target.value);
-              }}
-            />
-            <label style={{ paddingTop: "20px" }} className={FormStyles.label}>
-              Password:
-            </label>
-            <input
-              type="text"
-              className={FormStyles.input}
-              placeholder="ex. mustOnlyBeAlphaNum766"
-              onChange={(e) => {
-                setPasswordReg(e.target.value);
-              }}
+              style={{ alignSelf: "flex-end", marginRight: "20px" }}
+              className={FormStyles.button}
+              type="submit"
+              value="submit"
             />
           </div>
-          <button
-            style={{ alignSelf: "flex-end", marginRight: "20px" }}
-            className={FormStyles.button}
-            onClick={register}
-          >
-            register
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );
