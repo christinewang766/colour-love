@@ -5,9 +5,11 @@ import Icon from "../components/images/icon.svg";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useState } from "react";
+import { Alert } from "react-bootstrap";
 
 export function LoginRegister() {
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
@@ -31,7 +33,6 @@ export function LoginRegister() {
         !(code > 64 && code < 91) && // upper alpha (A-Z)
         !(code > 96 && code < 123)
       ) {
-        // lower alpha (a-z)
         return false;
       }
     }
@@ -60,13 +61,7 @@ export function LoginRegister() {
         <form
           id="form"
           onSubmit={() => {
-            if (!isAlphaNumeric(usernameReg) || !isAlphaNumeric(passwordReg)) {
-              alert(
-                "Username and password must only contain numbers and letters."
-              );
-            } else {
-              register();
-            }
+            register();
           }}
         >
           <div className={FormStyles.container}>
@@ -79,6 +74,18 @@ export function LoginRegister() {
                 placeholder="ex. ComputerScienceIsSoCool"
                 onChange={(e) => {
                   setUsernameReg(e.target.value);
+                  if (
+                    !isAlphaNumeric(usernameReg) ||
+                    !isAlphaNumeric(passwordReg)
+                  ) {
+                    setShowAlert(true);
+                  } else if (
+                    isAlphaNumeric(usernameReg) &&
+                    isAlphaNumeric(passwordReg)
+                  ) {
+                    setShowAlert(false);
+                    setUsernameReg(usernameReg);
+                  }
                 }}
               />
               <label
@@ -94,15 +101,31 @@ export function LoginRegister() {
                 placeholder="ex. mustOnlyBeAlphaNum766"
                 onChange={(e) => {
                   setPasswordReg(e.target.value);
+                  if (
+                    !isAlphaNumeric(passwordReg) ||
+                    !isAlphaNumeric(usernameReg)
+                  ) {
+                    setShowAlert(true);
+                  } else if (
+                    isAlphaNumeric(passwordReg) &&
+                    isAlphaNumeric(usernameReg)
+                  ) {
+                    setShowAlert(false);
+                  }
                 }}
               />
             </div>
-            <input
-              style={{ alignSelf: "flex-end", marginRight: "20px" }}
-              className={FormStyles.button}
-              type="submit"
-              value="submit"
-            />
+            <div style={{ display: "grid" }}>
+              <Alert show={showAlert} key="danger" variant="danger">
+                This is an alert—check it out!
+              </Alert>
+              <input
+                style={{ alignSelf: "flex-end", marginRight: "20px" }}
+                className={FormStyles.button}
+                type="submit"
+                value="submit"
+              />
+            </div>
           </div>
         </form>
       </div>

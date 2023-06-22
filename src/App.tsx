@@ -3,6 +3,7 @@ import { Home } from "./pages/Home";
 import { Palette } from "./pages/Palette";
 import { Login } from "./pages/Login";
 import LoginRegister from "./pages/LoginRegister";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
