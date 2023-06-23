@@ -9,7 +9,7 @@ import { Alert } from "react-bootstrap";
 
 export function LoginRegister() {
   const navigate = useNavigate();
-  const [showAlert, setShowAlert] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
@@ -23,20 +23,12 @@ export function LoginRegister() {
   };
 
   // https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
-  function isAlphaNumeric(str: string): boolean {
-    var code, i, len;
-
-    for (i = 0, len = str.length; i < len; i++) {
-      code = str.charCodeAt(i);
-      if (
-        !(code > 47 && code < 58) && // numeric (0-9)
-        !(code > 64 && code < 91) && // upper alpha (A-Z)
-        !(code > 96 && code < 123)
-      ) {
-        return false;
-      }
+  function isAlphaNumeric(str1: string, str2: string) {
+    if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2)) {
+      setSubmit(true);
+    } else {
+      setSubmit(false);
     }
-    return true;
   }
 
   return (
@@ -60,6 +52,11 @@ export function LoginRegister() {
         </div>
         <form
           id="form"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onSubmit={() => {
             register();
           }}
@@ -74,18 +71,7 @@ export function LoginRegister() {
                 placeholder="ex. ComputerScienceIsSoCool"
                 onChange={(e) => {
                   setUsernameReg(e.target.value);
-                  if (
-                    !isAlphaNumeric(usernameReg) ||
-                    !isAlphaNumeric(passwordReg)
-                  ) {
-                    setShowAlert(true);
-                  } else if (
-                    isAlphaNumeric(usernameReg) &&
-                    isAlphaNumeric(passwordReg)
-                  ) {
-                    setShowAlert(false);
-                    setUsernameReg(usernameReg);
-                  }
+                  isAlphaNumeric(e.target.value, passwordReg);
                 }}
               />
               <label
@@ -101,31 +87,31 @@ export function LoginRegister() {
                 placeholder="ex. mustOnlyBeAlphaNum766"
                 onChange={(e) => {
                   setPasswordReg(e.target.value);
-                  if (
-                    !isAlphaNumeric(passwordReg) ||
-                    !isAlphaNumeric(usernameReg)
-                  ) {
-                    setShowAlert(true);
-                  } else if (
-                    isAlphaNumeric(passwordReg) &&
-                    isAlphaNumeric(usernameReg)
-                  ) {
-                    setShowAlert(false);
-                  }
+                  isAlphaNumeric(e.target.value, usernameReg);
                 }}
               />
             </div>
-            <div style={{ display: "grid" }}>
-              <Alert show={showAlert} key="danger" variant="danger">
-                This is an alert—check it out!
-              </Alert>
-              <input
-                style={{ alignSelf: "flex-end", marginRight: "20px" }}
-                className={FormStyles.button}
-                type="submit"
-                value="submit"
-              />
-            </div>
+            <Alert
+              style={{ maxWidth: "80%" }}
+              show={!submit}
+              key="danger"
+              variant="danger"
+            >
+              Only use letters and numbers in your username and password.
+            </Alert>
+            <input
+              disabled={!submit}
+              style={{
+                alignSelf: "flex-end",
+                marginRight: "20px",
+                background: submit ? "#FFFFFF" : "#8A8A8A",
+                border: submit ? "5px solid #BF7037" : "5px solid black",
+                color: submit ? "5px solid #BF7037" : "5px solid black",
+              }}
+              className={FormStyles.button}
+              type="submit"
+              value="submit"
+            />
           </div>
         </form>
       </div>
