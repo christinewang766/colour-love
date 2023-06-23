@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../components/reducers/userSlice";
 
 export function LoginRegister() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [submit, setSubmit] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [available, setAvailable] = useState(true);
@@ -127,7 +130,7 @@ export function LoginRegister() {
             <input
               id="username"
               required
-              type="text"
+              type="username"
               className={FormStyles.input}
               placeholder="ex. ComputerScienceIsSoCool"
               onChange={(e) => {
@@ -143,7 +146,7 @@ export function LoginRegister() {
             <input
               id="password"
               required
-              type="text"
+              type="password"
               className={FormStyles.input}
               placeholder="ex. mustOnlyBeAlphaNum766"
               onChange={(e) => {
@@ -187,6 +190,11 @@ export function LoginRegister() {
                 clearForm();
                 setIsLogin(false);
                 setSubmit(false);
+                dispatch(loginUser({
+                  username: usernameReg,
+                  password: passwordReg, 
+                  loggedIn: true,
+                }));
               }}
               value="login"
             >
@@ -194,16 +202,16 @@ export function LoginRegister() {
             </button>
 
             {/* REGISTRATION BUTTON ======================================================*/}
-            {/* disabled: true when can not submit or when is login*/}
+            {/* disabled: true when can not submit or when user is not available */}
 
             <button
-              disabled={!submit || isLogin}
+              disabled={!submit || !available}
               style={{
                 marginRight: "20px",
-                background: submit && !isLogin ? "#FFFFFF" : "#8A8A8A",
+                background: submit && available ? "#FFFFFF" : "#8A8A8A",
                 border:
-                  submit && !isLogin ? "5px solid #BF7037" : "5px solid black",
-                color: submit && !isLogin ? "#BF7037" : "black",
+                  submit && available ? "5px solid #BF7037" : "5px solid black",
+                color: submit && available ? "#BF7037" : "black",
               }}
               className={FormStyles.button}
               value="register"
