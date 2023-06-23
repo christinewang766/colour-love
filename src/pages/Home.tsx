@@ -5,10 +5,12 @@ import DropDown from "../components/DropDown";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { randomState } from "../components/actions/stateTypes";
-import { selectUser } from "../components/reducers/userSlice";
+import { logoutUser, selectUser } from "../components/reducers/userSlice";
+import { ImExit } from "react-icons/im";
 
 export function Home() {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
@@ -16,14 +18,26 @@ export function Home() {
     return ["Red", "Green", "Blue"];
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser);
+    navigate("/");
+  };
+
   const toggleDropDown = () => {
     setShowDropDown(!showDropDown);
   };
 
-  const navigate = useNavigate();
   // ==========================================================================
   return (
     <div className={ThemeStyles.outerFrame} style={{ background: "#DD517E" }}>
+      <button style={{ background:'none', border:'none', position:'fixed', left:'20px', top: '20px'}}>
+        <ImExit
+          size={40}
+          onClick={() => {
+            handleLogout();
+          }}
+        />
+      </button>
       <div className={ThemeStyles.innerFrame} style={{ background: "#7A98ED" }}>
         <h6
           style={{
