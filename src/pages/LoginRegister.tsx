@@ -12,6 +12,16 @@ export function LoginRegister() {
   const [submit, setSubmit] = useState(false);
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
+  const [loginStatus, setLoginStatis] = useState("");
+
+  const login = () => {
+    Axios.post("http://localhost:3001/login", {
+      username: usernameReg,
+      password: passwordReg,
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
   const register = () => {
     Axios.post("http://localhost:3001/register", {
@@ -22,14 +32,15 @@ export function LoginRegister() {
     });
   };
 
-  // https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
-  function isAlphaNumeric(str1: string, str2: string) {
+  const isAlphaNumeric = (str1: string, str2: string) => {
     if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2)) {
       setSubmit(true);
     } else {
       setSubmit(false);
     }
-  }
+  };
+
+  const clearForm = () => {};
 
   return (
     <div className={ThemeStyles.outerFrame}>
@@ -42,78 +53,105 @@ export function LoginRegister() {
             flexDirection: "row",
           }}
         >
+          {/* ICON ======================================================*/}
+
           <img
             onClick={() => navigate("/")}
             src={Icon}
             style={{ maxWidth: "80px", paddingRight: "25px" }}
             alt="icon"
           />
+
+          {/* TITLE ======================================================*/}
+
           <h1 className={PaletteStyles.title}>Welcome</h1>
         </div>
-        <form
-          id="form"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-          onSubmit={() => {
-            register();
-          }}
-        >
-          <div className={FormStyles.container}>
-            <div style={{ display: "grid", padding: "20px" }}>
-              <label className={FormStyles.label}>Username:</label>
-              <input
-                required
-                type="text"
-                className={FormStyles.input}
-                placeholder="ex. ComputerScienceIsSoCool"
-                onChange={(e) => {
-                  setUsernameReg(e.target.value);
-                  isAlphaNumeric(e.target.value, passwordReg);
-                }}
-              />
-              <label
-                style={{ paddingTop: "20px" }}
-                className={FormStyles.label}
-              >
-                Password:
-              </label>
-              <input
-                required
-                type="text"
-                className={FormStyles.input}
-                placeholder="ex. mustOnlyBeAlphaNum766"
-                onChange={(e) => {
-                  setPasswordReg(e.target.value);
-                  isAlphaNumeric(e.target.value, usernameReg);
-                }}
-              />
-            </div>
-            <Alert
-              style={{ maxWidth: "80%" }}
-              show={!submit}
-              key="danger"
-              variant="danger"
-            >
-              Only use letters and numbers in your username and password.
-            </Alert>
+
+        {/* FORM BOX ======================================================*/}
+
+        <div className={FormStyles.container}>
+          <div style={{ display: "grid", padding: "20px" }}>
+            {/* USERNAME ======================================================*/}
+
+            <label className={FormStyles.label}>Username:</label>
             <input
+              id="username"
+              required
+              type="text"
+              className={FormStyles.input}
+              placeholder="ex. ComputerScienceIsSoCool"
+              onChange={(e) => {
+                setUsernameReg(e.target.value);
+                isAlphaNumeric(e.target.value, passwordReg);
+              }}
+            />
+
+            {/* PASSWORD ======================================================*/}
+
+            <label style={{ paddingTop: "20px" }} className={FormStyles.label}>
+              Password:
+            </label>
+            <input
+              id="password"
+              required
+              type="text"
+              className={FormStyles.input}
+              placeholder="ex. mustOnlyBeAlphaNum766"
+              onChange={(e) => {
+                setPasswordReg(e.target.value);
+                isAlphaNumeric(e.target.value, usernameReg);
+              }}
+            />
+          </div>
+
+          {/* SYNTAX ALERT ======================================================*/}
+
+          <Alert
+            style={{ maxWidth: "80%" }}
+            show={!submit}
+            key="danger"
+            variant="danger"
+          >
+            Only use letters and numbers in your username and password.
+          </Alert>
+
+          {/* LOGIN BUTTON ======================================================*/}
+
+          <div>
+            <button
               disabled={!submit}
               style={{
-                alignSelf: "flex-end",
+                background: submit ? "#FFFFFF" : "#8A8A8A",
+                border: submit ? "5px solid #BF7037" : "5px solid black",
+                color: submit ? "#BF7037" : "black",
+              }}
+              className={FormStyles.button}
+              onClick={login}
+              value="login"
+            >
+              login
+            </button>
+
+            {/* REGISTRATION BUTTON ======================================================*/}
+
+            <button
+              disabled={!submit}
+              style={{
                 marginRight: "20px",
                 background: submit ? "#FFFFFF" : "#8A8A8A",
                 border: submit ? "5px solid #BF7037" : "5px solid black",
-                color: submit ? "5px solid #BF7037" : "5px solid black",
+                color: submit ? "#BF7037" : "black",
               }}
               className={FormStyles.button}
-              type="submit"
-              value="submit"
-            />
+              value="register"
+              onClick={() => {
+                register();
+              }}
+            >
+              register
+            </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

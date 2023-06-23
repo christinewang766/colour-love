@@ -31,11 +31,11 @@ app.post("/login", (req, res) => {
   const password = req.body.password;
 
   db.query(
-    "SELECT * FROM users WHERE username == ? AND password == ?",
+    "SELECT * FROM users WHERE username = ? AND password = ?",
     [username, password],
     (err, result) => {
       if (err) res.send({ err: err });
-      if (result) {
+      if (result.length > 0) {
         res.send(result);
       } else {
         res.send({ message: "Wrong username or password!" });
