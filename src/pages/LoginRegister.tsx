@@ -10,16 +10,35 @@ import { Alert } from "react-bootstrap";
 export function LoginRegister() {
   const navigate = useNavigate();
   const [submit, setSubmit] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [loginStatis, setLoginStatis] = useState("");
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
-  const [loginStatus, setLoginStatis] = useState("");
+
+  const check = () => {
+    Axios.post("http://localhost:3001/check", {
+      username: usernameReg,
+      password: passwordReg,
+    }).then((response) => {
+      if (response.data.message) {
+        setIsLogin(false);
+      } else {
+        setIsLogin(true);
+      }
+      console.log(isLogin);
+    });
+  };
 
   const login = () => {
     Axios.post("http://localhost:3001/login", {
       username: usernameReg,
       password: passwordReg,
     }).then((response) => {
-      console.log(response);
+      if (response.data.message) {
+        setLoginStatis(response.data.message);
+      } else {
+        setLoginStatis(response.data[0].username);
+      }
     });
   };
 
@@ -33,6 +52,7 @@ export function LoginRegister() {
   };
 
   const isAlphaNumeric = (str1: string, str2: string) => {
+    check();
     if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2)) {
       setSubmit(true);
     } else {
@@ -119,11 +139,12 @@ export function LoginRegister() {
 
           <div>
             <button
-              disabled={!submit}
+              disabled={!isLogin}
               style={{
-                background: submit ? "#FFFFFF" : "#8A8A8A",
-                border: submit ? "5px solid #BF7037" : "5px solid black",
-                color: submit ? "#BF7037" : "black",
+                background: submit && isLogin ? "#FFFFFF" : "#8A8A8A",
+                border:
+                  submit && isLogin ? "5px solid #BF7037" : "5px solid black",
+                color: submit && isLogin ? "#BF7037" : "black",
               }}
               className={FormStyles.button}
               onClick={login}
@@ -135,12 +156,13 @@ export function LoginRegister() {
             {/* REGISTRATION BUTTON ======================================================*/}
 
             <button
-              disabled={!submit}
+              disabled={!submit || isLogin}
               style={{
                 marginRight: "20px",
-                background: submit ? "#FFFFFF" : "#8A8A8A",
-                border: submit ? "5px solid #BF7037" : "5px solid black",
-                color: submit ? "#BF7037" : "black",
+                background: submit && !isLogin ? "#FFFFFF" : "#8A8A8A",
+                border:
+                  submit && !isLogin ? "5px solid #BF7037" : "5px solid black",
+                color: submit && !isLogin ? "#BF7037" : "black",
               }}
               className={FormStyles.button}
               value="register"
@@ -151,6 +173,7 @@ export function LoginRegister() {
               register
             </button>
           </div>
+          <h1>{loginStatis}</h1>
         </div>
       </div>
     </div>
