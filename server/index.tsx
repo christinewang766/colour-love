@@ -44,6 +44,23 @@ app.post("/login", (req, res) => {
   );
 });
 
+app.post("/checkusername", (req, res) => {
+  const username = req.body.username;
+
+  db.query(
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+    (err, result) => {
+      if (err) res.send({ err: err });
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send({ message: "Existing Username" });
+      }
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log("Yey, your server is running on port 3001!");
 });

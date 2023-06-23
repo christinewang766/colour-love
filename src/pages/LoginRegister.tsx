@@ -11,11 +11,25 @@ export function LoginRegister() {
   const navigate = useNavigate();
   const [submit, setSubmit] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const [loginStatis, setLoginStatis] = useState("");
+  const [available, setAvailable] = useState(true);
+  const [user, setUser] = useState("");
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
   /** SERVER COMMUNICATION ========================================= */
+
+  const checkAvailability = () => {
+    Axios.post("http://localhost:3001/checkusername", {
+      username: usernameReg,
+    }).then((response) => {
+      if (response.data.message) {
+        setAvailable(true);
+      } else {
+        setAvailable(false);
+      }
+    });
+  };
+
   const check = () => {
     Axios.post("http://localhost:3001/login", {
       username: usernameReg,
@@ -26,7 +40,6 @@ export function LoginRegister() {
       } else {
         setIsLogin(true);
       }
-      console.log(response);
     });
   };
 
@@ -36,9 +49,9 @@ export function LoginRegister() {
       password: passwordReg,
     }).then((response) => {
       if (response.data.message) {
-        setLoginStatis(response.data.message);
+        setUser(response.data.message);
       } else {
-        setLoginStatis(response.data[0].username);
+        setUser(response.data[0].username);
       }
     });
   };
@@ -64,6 +77,7 @@ export function LoginRegister() {
 
   const handleValueChange = () => {
     isAlphaNumeric(usernameReg, passwordReg);
+    checkAvailability();
     check();
   };
 
@@ -117,7 +131,7 @@ export function LoginRegister() {
               className={FormStyles.input}
               placeholder="ex. ComputerScienceIsSoCool"
               onChange={(e) => {
-                setUsernameReg(e.target.value);
+                setUsernameReg(e.target.value.toLowerCase());
               }}
             />
 
@@ -133,7 +147,7 @@ export function LoginRegister() {
               className={FormStyles.input}
               placeholder="ex. mustOnlyBeAlphaNum766"
               onChange={(e) => {
-                setPasswordReg(e.target.value);
+                setPasswordReg(e.target.value.toLowerCase());
               }}
             />
           </div>
@@ -148,6 +162,12 @@ export function LoginRegister() {
           >
             Only use letters and numbers in your username and password.
           </Alert>
+          <Alert
+            style={{ maxWidth: "80%" }}
+            show={!available}
+            key="warning"
+            variant="warning"
+          >"{usernameReg}" is an existing user. If you are trying to register, choose another username.</Alert>
 
           {/* LOGIN BUTTON ======================================================*/}
           {/* disabled: true when can not submit or is not login */}
@@ -196,7 +216,7 @@ export function LoginRegister() {
               register
             </button>
           </div>
-          <h1>{loginStatis}</h1>
+          <h1>{user}</h1>
         </div>
       </div>
     </div>
