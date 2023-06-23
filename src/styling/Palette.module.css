@@ -7,7 +7,10 @@
   color: #556cc9;
   -webkit-text-fill-color: white;
   -webkit-text-stroke: 1px;
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 350px) {
+    font-size: 35px;
+  }
+  @media only screen and (max-width: 450px) and (min-width: 350px) {
     font-size: 40px;
   }
 }
