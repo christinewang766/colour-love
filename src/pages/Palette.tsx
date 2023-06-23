@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export function Palette() {
   const navigate = useNavigate();
-  const colourState = useSelector((state) => state);
+  // const colourState = useSelector((state) => state);
 
   const [minSat, maxSat, minLight, maxLight] = [10, 100, 10, 95];
   const [minRed1, maxRed1, minRed2, maxRed2] = [0, 60, 280, 360];

@@ -190,10 +190,11 @@ export function LoginRegister() {
                 clearForm();
                 setIsLogin(false);
                 setSubmit(false);
+                navigate("/home");
                 dispatch(loginUser({
                   username: usernameReg,
                   password: passwordReg, 
-                  loggedIn: true,
+                  loggedIn: true
                 }));
               }}
               value="login"
@@ -219,6 +220,12 @@ export function LoginRegister() {
                 register();
                 clearForm();
                 setSubmit(false);
+                navigate("/home");
+                dispatch(loginUser({
+                  username: usernameReg,
+                  password: passwordReg, 
+                  loggedIn: true
+                }));
               }}
             >
               register
