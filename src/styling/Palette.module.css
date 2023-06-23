@@ -3,7 +3,8 @@
   font-size: 60px;
   font-style: oblique;
   font-weight: bolder;
-  text-align: center  ;
+  text-align: center;
+padding-bottom:10px;
   color: #556cc9;
   -webkit-text-fill-color: white;
   -webkit-text-stroke: 1px;

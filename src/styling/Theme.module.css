@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   background: #7a98ed;
-  height: calc(100vh - 17px);
+  height: 100vh;
   width: 100%;
   box-sizing: border-box;
   border: 5px solid black;
@@ -11,14 +11,14 @@
   align-items: center;
   flex-direction: column;
   @media only screen and (max-width: 400px) {
-    height: 100vh;
     padding-bottom: 20px;
+    height: auto;
   }
 }
 
 .innerFrame {
   padding: 20px;
-  height: 80%;
+  height: auto;
   width: 80%;
   background: #DD517E;
   border: 5px solid black;

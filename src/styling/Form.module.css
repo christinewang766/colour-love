@@ -37,9 +37,22 @@
 }
 
 .button {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 18px;
-    font-weight: 600;
-    font-family: monospace;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap:20px;
+  margin-left: 20px;
+  @media only screen and (max-width: 380px) {
+    flex-direction: column;
+  margin-left: 0;
   }
+}

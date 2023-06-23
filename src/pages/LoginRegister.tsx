@@ -15,6 +15,7 @@ export function LoginRegister() {
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
+  /** SERVER COMMUNICATION ========================================= */
   const check = () => {
     Axios.post("http://localhost:3001/login", {
       username: usernameReg,
@@ -51,6 +52,8 @@ export function LoginRegister() {
     });
   };
 
+  /** HELPERS ========================================= */
+
   const isAlphaNumeric = (str1: string, str2: string) => {
     if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2)) {
       setSubmit(true);
@@ -68,7 +71,12 @@ export function LoginRegister() {
     handleValueChange();
   }, [usernameReg, passwordReg]);
 
-  const clearForm = () => {};
+  const clearForm = () => {
+    var getValueU = document.getElementById("username");
+    var getValueP = document.getElementById("password");
+    getValueU.value = "";
+    getValueP.value = "";
+  };
 
   return (
     <div className={ThemeStyles.outerFrame}>
@@ -144,7 +152,7 @@ export function LoginRegister() {
           {/* LOGIN BUTTON ======================================================*/}
           {/* disabled: true when can not submit or is not login */}
 
-          <div>
+          <div className={FormStyles.buttonContainer}>
             <button
               disabled={!submit || !isLogin}
               style={{
@@ -154,7 +162,12 @@ export function LoginRegister() {
                 color: submit && isLogin ? "#BF7037" : "black",
               }}
               className={FormStyles.button}
-              onClick={login}
+              onClick={() => {
+                login();
+                clearForm();
+                setIsLogin(false);
+                setSubmit(false);
+              }}
               value="login"
             >
               login
@@ -176,6 +189,8 @@ export function LoginRegister() {
               value="register"
               onClick={() => {
                 register();
+                clearForm();
+                setSubmit(false);
               }}
             >
               register
