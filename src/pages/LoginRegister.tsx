@@ -55,7 +55,7 @@ export function LoginRegister() {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
           onSubmit={() => {
             register();
