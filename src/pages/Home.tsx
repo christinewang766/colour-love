@@ -1,4 +1,4 @@
-import Saved from "../components/saved.svg";
+import Saved from "../components/images/saved.svg";
 import ThemeStyles from "../styling/Theme.module.css";
 import { useState } from "react";
 import DropDown from "../components/DropDown";

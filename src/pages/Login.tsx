@@ -4,7 +4,7 @@ import ThemeStyles from "../styling/Theme.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useSound from "use-sound";
-import Woof from "../components/woof.mp3";
+import Woof from "../components/music/woof.mp3";
 
 export function Login() {
   const navigate = useNavigate();

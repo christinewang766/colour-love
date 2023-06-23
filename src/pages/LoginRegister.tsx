@@ -4,7 +4,7 @@ import PaletteStyles from "../styling/Palette.module.css";
 import Icon from "../components/images/icon.svg";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 
 export function LoginRegister() {
@@ -16,7 +16,7 @@ export function LoginRegister() {
   const [passwordReg, setPasswordReg] = useState("");
 
   const check = () => {
-    Axios.post("http://localhost:3001/check", {
+    Axios.post("http://localhost:3001/login", {
       username: usernameReg,
       password: passwordReg,
     }).then((response) => {
@@ -25,7 +25,7 @@ export function LoginRegister() {
       } else {
         setIsLogin(true);
       }
-      console.log(isLogin);
+      console.log(response);
     });
   };
 
@@ -52,13 +52,21 @@ export function LoginRegister() {
   };
 
   const isAlphaNumeric = (str1: string, str2: string) => {
-    check();
     if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2)) {
       setSubmit(true);
     } else {
       setSubmit(false);
     }
   };
+
+  const handleValueChange = () => {
+    isAlphaNumeric(usernameReg, passwordReg);
+    check();
+  };
+
+  useEffect(() => {
+    handleValueChange();
+  }, [usernameReg, passwordReg]);
 
   const clearForm = () => {};
 
@@ -102,7 +110,6 @@ export function LoginRegister() {
               placeholder="ex. ComputerScienceIsSoCool"
               onChange={(e) => {
                 setUsernameReg(e.target.value);
-                isAlphaNumeric(e.target.value, passwordReg);
               }}
             />
 
@@ -119,7 +126,6 @@ export function LoginRegister() {
               placeholder="ex. mustOnlyBeAlphaNum766"
               onChange={(e) => {
                 setPasswordReg(e.target.value);
-                isAlphaNumeric(e.target.value, usernameReg);
               }}
             />
           </div>
@@ -136,10 +142,11 @@ export function LoginRegister() {
           </Alert>
 
           {/* LOGIN BUTTON ======================================================*/}
+          {/* disabled: true when can not submit or is not login */}
 
           <div>
             <button
-              disabled={!isLogin}
+              disabled={!submit || !isLogin}
               style={{
                 background: submit && isLogin ? "#FFFFFF" : "#8A8A8A",
                 border:
@@ -154,6 +161,7 @@ export function LoginRegister() {
             </button>
 
             {/* REGISTRATION BUTTON ======================================================*/}
+            {/* disabled: true when can not submit or when is login*/}
 
             <button
               disabled={!submit || isLogin}
