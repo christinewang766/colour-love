@@ -70,8 +70,8 @@ export function LoginRegister() {
 
   /** HELPERS ========================================= */
 
-  const isAlphaNumeric = (str1: string, str2: string) => {
-    if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2)) {
+  const isValidSyntax = (str1: string, str2: string) => {
+    if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2) && str1.length > 3 && str2.length > 3) {
       setSubmit(true);
     } else {
       setSubmit(false);
@@ -79,7 +79,7 @@ export function LoginRegister() {
   };
 
   const handleValueChange = () => {
-    isAlphaNumeric(usernameReg, passwordReg);
+    isValidSyntax(usernameReg, passwordReg);
     checkAvailability();
     check();
   };
@@ -167,9 +167,17 @@ export function LoginRegister() {
           </Alert>
           <Alert
             style={{ maxWidth: "80%" }}
-            show={!available}
+            show={!submit}
             key="warning"
             variant="warning"
+          >
+            Username and password must be more than 3 characters long.
+          </Alert>
+          <Alert
+            style={{ maxWidth: "80%" }}
+            show={!available}
+            key="info"
+            variant="info"
           >"{usernameReg}" is an existing user. If you are trying to register, choose another username.</Alert>
 
           {/* LOGIN BUTTON ======================================================*/}

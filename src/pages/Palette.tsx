@@ -83,6 +83,7 @@ export function Palette() {
           <Swatch hex={generateColour()} />
           <Swatch hex={generateColour()} />
         </div>
+    
         <div className={PaletteStyles.returnContainer}>
           <button
             className={PaletteStyles.button}
