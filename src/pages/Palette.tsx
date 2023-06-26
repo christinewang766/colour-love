@@ -6,13 +6,12 @@ import { useSelector } from "react-redux";
 
 export function Palette() {
   const navigate = useNavigate();
-  // const colourState = useSelector((state) => state);
-
   const [minSat, maxSat, minLight, maxLight] = [10, 100, 10, 95];
   const [minRed1, maxRed1, minRed2, maxRed2] = [0, 60, 280, 360];
   const [minGreen, maxGreen] = [60, 170];
   const [minBlue, maxBlue] = [170, 280];
   const [minRand, maxRand] = [0, 359];
+  const {colour} = useSelector((state) => state.colour);
 
   /**
  * 
@@ -25,15 +24,16 @@ export function Palette() {
     let saturation = getRandomInt(minSat, maxSat);
     let lightness = getRandomInt(minLight, maxLight);
     let hex = "hex value";
-    if (colourState == "random") {
+
+    if (colour == "random") {
       let hue = getRandomInt(minRand, maxRand);
       hex = hslToHex(hue, saturation, lightness);
-    } else if (colourState == "red") {
+    } else if (colour == "red") {
       let hue = Math.round(Math.random())
         ? getRandomInt(minRed1, maxRed1)
         : getRandomInt(minRed2, maxRed2);
       hex = hslToHex(hue, saturation, lightness);
-    } else if (colourState == "green") {
+    } else if (colour == "green") {
       let hue = getRandomInt(minGreen, maxGreen);
       hex = hslToHex(hue, saturation, lightness);
     } else {
@@ -53,7 +53,7 @@ export function Palette() {
   function hslToHex(h: number, s: number, l: number): string {
     l /= 100;
     const a = (s * Math.min(l, 1 - l)) / 100;
-    const f = (n) => {
+    const f = (n: number) => {
       const k = (n + h / 30) % 12;
       const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
       return Math.round(255 * color)
@@ -62,13 +62,13 @@ export function Palette() {
     };
     return `#${f(0)}${f(8)}${f(4)}`;
   }
-
+  
   return (
     <div
       className={ThemeStyles.outerFrame}
       style={{ border: "5px solid black", background: "#DD517E" }}
     >
-      <h1 className={PaletteStyles.title}>{colourState} palette</h1>
+      <h1 className={PaletteStyles.title}>{colour} palette</h1>
       <div
         style={{
           display: "flex",

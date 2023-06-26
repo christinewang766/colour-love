@@ -4,9 +4,9 @@ import { useState } from "react";
 import DropDown from "../components/DropDown";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { randomState } from "../components/actions/stateTypes";
-import { logoutUser, selectUser } from "../components/reducers/userSlice";
+import { logoutUser, selectUser } from "../components/redux/userSlice";
 import { ImExit } from "react-icons/im";
+import { random } from "../components/redux/colourSlice";
 
 export function Home() {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
@@ -15,7 +15,7 @@ export function Home() {
   const user = useSelector(selectUser);
 
   const colours = () => {
-    return ["Red", "Green", "Blue"];
+    return ["red", "green", "blue"];
   };
 
   const handleLogout = () => {
@@ -30,7 +30,15 @@ export function Home() {
   // ==========================================================================
   return (
     <div className={ThemeStyles.outerFrame} style={{ background: "#DD517E" }}>
-      <button style={{ background:'none', border:'none', position:'fixed', left:'20px', top: '20px'}}>
+      <button
+        style={{
+          background: "none",
+          border: "none",
+          position: "fixed",
+          left: "20px",
+          top: "20px",
+        }}
+      >
         <ImExit
           size={40}
           onClick={() => {
@@ -56,7 +64,7 @@ export function Home() {
           className={ThemeStyles.button}
           style={{ border: "5px solid #481D52" }}
           onClick={() => {
-            dispatch(randomState());
+            dispatch(random());
             navigate("palette");
           }}
         >

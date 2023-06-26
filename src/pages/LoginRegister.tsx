@@ -7,7 +7,7 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../components/reducers/userSlice";
+import { loginUser } from "../components/redux/userSlice";
 
 export function LoginRegister() {
   const navigate = useNavigate();
