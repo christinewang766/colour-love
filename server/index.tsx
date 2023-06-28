@@ -81,7 +81,7 @@ app.post("/savedRandom", (req, res) => {
   const hexes = req.body.hexes;
   const username = req.body.username;
   db.query(
-    "INSERT INTO users savedRandom VALUES ? WHERE username = ?",
+    "UPDATE users SET `savedRandom` = ? WHERE username = ?",
     [hexes, username],
     (err, result) => {
       console.log(err);

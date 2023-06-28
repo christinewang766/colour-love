@@ -17,29 +17,42 @@ export function Palette() {
   const user = useSelector(selectUser);
   var currentHexes: string = "";
   let username = user.username;
-  var hexes: string = "";
+  var updatedHexes: string = "";
 
-  const getSavedRandom = () => {
-    Axios.post("http://localhost:3001/getSavedRandom", {
-      username: username,
-    }).then((response) => {
-      if (response.data.message) {
+  const getSavedRandom = async () => {
+    try {
+      const response = await Axios.post(
+        "http://localhost:3001/getSavedRandom",
+        {
+          username: username,
+        }
+      );
+      if (response.data[0].savedRandom == null) {
+        updatedHexes = currentHexes;
       } else {
-        hexes = response.data[0].savedRandom + currentHexes;
-        console.log("after axios hexes: " + hexes);
+        updatedHexes = response.data[0].savedRandom + currentHexes;
       }
-    });
+      console.log("after axios updatedHexes: " + updatedHexes);
+      savedRandom();
+    } catch (error) {
+      console.log("ERROR: " + error);
+    }
   };
 
-  // #1fa36c #74aa8b #982ac0 #724053
-  const savedRandom = () => {
-    Axios.post("http://localhost:3001/savedRandom", {
-      hexes: hexes,
-      username: username,
-    }).then((response) => {
-      console.log("result of savedRandom: " + response);
-    });
+  // #1fa36c #74aa8b #982ac0 #724053 
+  // #982ac0 #724053 #1fa36c #74aa8b 
+  const savedRandom = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedRandom", {
+        hexes: updatedHexes,
+        username: username,
+      });
+      console.log("RESPONSE savedRandom: " + response);
+    } catch (error) {
+      console.log("ERROR savedRandom: " + error);
+    }
   };
+
 
   /**
  * 
@@ -121,8 +134,7 @@ export function Palette() {
               borderColor: "#E68E35",
             }}
             onClick={() => {
-              // getSavedRandom();
-              // savedRandom();
+              getSavedRandom();
               navigate("/home/saved");
             }}
           >
