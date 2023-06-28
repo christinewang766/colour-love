@@ -61,6 +61,40 @@ app.post("/checkusername", (req, res) => {
   );
 });
 
+app.post("/getSavedRandom", (req, res) => {
+  const username = req.body.username;
+
+  db.query(
+    "SELECT savedRandom FROM users WHERE username = ?",
+    [username],
+    (err, result) => {
+      if (err) res.send({ err: err });
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send({ message: "No savedRandom" });
+      }
+    }
+  );
+});
+
+app.post("/savedRandom", (req, res) => {
+  const randomHexes = req.body.hexes;
+  const username = req.body.username;
+
+  db.query(
+    "UPDATE users SET savedRandom = ? WHERE username = ?",
+    [randomHexes, username],
+    (err, result) => {
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send({ message: "Some issue with /saveRandom" });
+      }
+    }
+  );
+});
+
 app.listen(3001, () => {
   console.log("Yey, your server is running on port 3001!");
 });

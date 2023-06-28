@@ -2,7 +2,10 @@ import ThemeStyles from "../styling/Theme.module.css";
 import PaletteStyles from "../styling/Palette.module.css";
 import { useNavigate } from "react-router-dom";
 import Swatch from "../components/Swatch";
+import { Axios } from "axios";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { selectUser } from "../components/redux/userSlice";
 
 export function Palette() {
   const navigate = useNavigate();
@@ -11,7 +14,24 @@ export function Palette() {
   const [minGreen, maxGreen] = [60, 170];
   const [minBlue, maxBlue] = [170, 280];
   const [minRand, maxRand] = [0, 359];
-  const {colour} = useSelector((state) => state.colour);
+  const { colour } = useSelector((state) => state.colour);
+  const [randomHexes, setRandomHexes] = useState("");
+  const user = useSelector(selectUser);
+  var currentHexes: string = randomHexes;
+  // let username = user.username;
+
+  // const savedRandom = () => {
+  //   Axios.post("http://localhost:3001/savedRandom", {
+  //     randomHexes: randomHexes,
+  //     username: username,
+  //   }).then((response) => {
+  //     if (response.data.message) {
+  //       // setRandomHexes(response.data.message);
+  //     } else {
+  //       // setRandomHexes(response.data[0].username);
+  //     }
+  //   });
+  // };
 
   /**
  * 
@@ -20,7 +40,7 @@ export function Palette() {
    GREEN: hsl([60-170], [10-100], [10-95])
    BLUE: hsl([170-280], [10-100], [10-95])
  */
-  function generateColour(): string {
+  function generateColour(arrPos: number): string {
     let saturation = getRandomInt(minSat, maxSat);
     let lightness = getRandomInt(minLight, maxLight);
     let hex = "hex value";
@@ -28,6 +48,7 @@ export function Palette() {
     if (colour == "random") {
       let hue = getRandomInt(minRand, maxRand);
       hex = hslToHex(hue, saturation, lightness);
+      currentHexes = currentHexes + hex + " ";
     } else if (colour == "red") {
       let hue = Math.round(Math.random())
         ? getRandomInt(minRed1, maxRed1)
@@ -62,7 +83,7 @@ export function Palette() {
     };
     return `#${f(0)}${f(8)}${f(4)}`;
   }
-  
+
   return (
     <div
       className={ThemeStyles.outerFrame}
@@ -78,18 +99,22 @@ export function Palette() {
         }}
       >
         <div className={PaletteStyles.swatchContainer}>
-          <Swatch hex={generateColour()} />
-          <Swatch hex={generateColour()} />
-          <Swatch hex={generateColour()} />
-          <Swatch hex={generateColour()} />
+          <Swatch hex={generateColour(0)} />
+          <Swatch hex={generateColour(1)} />
+          <Swatch hex={generateColour(2)} />
+          <Swatch hex={generateColour(3)} />
         </div>
-    
+
         <div className={PaletteStyles.returnContainer}>
           <button
             className={PaletteStyles.button}
             style={{
               color: "#E68E35",
               borderColor: "#E68E35",
+            }}
+            onClick={() => {
+              setRandomHexes(currentHexes);
+              navigate("/home/saved");
             }}
           >
             Save
@@ -101,7 +126,10 @@ export function Palette() {
               color: "#481D52",
               borderColor: "#481D52",
             }}
-            onClick={() => navigate("/home")}
+            onClick={() => {
+              console.log("this is randomHexes: " + randomHexes);
+              navigate("/home");
+            }}
           >
             Return Home
           </button>

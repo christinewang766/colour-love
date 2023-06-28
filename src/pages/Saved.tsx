@@ -1,6 +1,5 @@
 import ThemeStyles from "../styling/Theme.module.css";
 import PaletteStyles from "../styling/Palette.module.css";
-import DropDown from "../components/DropDown";
 import { useNavigate } from "react-router-dom";
 import { ImExit } from "react-icons/im";
 
