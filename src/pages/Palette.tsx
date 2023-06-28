@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Swatch from "../components/Swatch";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 import { selectUser } from "../components/redux/userSlice";
 
 export function Palette() {
@@ -28,20 +27,18 @@ export function Palette() {
       } else {
         hexes = response.data[0].savedRandom + currentHexes;
         console.log("after axios hexes: " + hexes);
-        savedRandom();
-        console.log("after savedRandom()");
       }
     });
   };
 
-  // #1fa36c #74aa8b #982ac0 #724053 
+  // #1fa36c #74aa8b #982ac0 #724053
   const savedRandom = () => {
-      Axios.post("http://localhost:3001/savedRandom", {
-        hexes: hexes,
-        username: username,
-      }).then((response) => {
-        console.log("result of savedRandom: " + response);
-      });
+    Axios.post("http://localhost:3001/savedRandom", {
+      hexes: hexes,
+      username: username,
+    }).then((response) => {
+      console.log("result of savedRandom: " + response);
+    });
   };
 
   /**
@@ -124,7 +121,8 @@ export function Palette() {
               borderColor: "#E68E35",
             }}
             onClick={() => {
-              getSavedRandom();
+              // getSavedRandom();
+              // savedRandom();
               navigate("/home/saved");
             }}
           >
