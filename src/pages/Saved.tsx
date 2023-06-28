@@ -1,10 +1,15 @@
 import ThemeStyles from "../styling/Theme.module.css";
 import PaletteStyles from "../styling/Palette.module.css";
+import SavedStyles from "../styling/Saved.module.css";
 import { useNavigate } from "react-router-dom";
 import { ImExit } from "react-icons/im";
+import { useSelector } from "react-redux";
+import { selectUser } from "../components/redux/userSlice";
+import SimplePalette from "../components/SimplePalette";
 
 export function Saved() {
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
 
   // ==========================================================================
   return (
@@ -25,13 +30,21 @@ export function Saved() {
           }}
         />
       </button>
-      <div className={ThemeStyles.innerFrame} style={{ background: "#FCF7F3" }}>
-        <h6
-          className={PaletteStyles.title}
-        >
+      <div
+        className={SavedStyles.innerFrame}
+      >
+        <h6 className={PaletteStyles.title}>
           {/* {user.username}'s */}
-          Temp's Saved
+          saved
         </h6>
+        <div className={SavedStyles.category}>random</div>
+        <SimplePalette/>
+        <SimplePalette/>
+        <SimplePalette/>
+        <SimplePalette/>
+        <SimplePalette/>
+        <SimplePalette/>
+        <SimplePalette/>
       </div>
     </div>
   );
