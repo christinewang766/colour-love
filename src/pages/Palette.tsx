@@ -2,11 +2,10 @@ import ThemeStyles from "../styling/Theme.module.css";
 import PaletteStyles from "../styling/Palette.module.css";
 import { useNavigate } from "react-router-dom";
 import Swatch from "../components/Swatch";
-import { Axios } from "axios";
+import Axios from "axios";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { selectUser } from "../components/redux/userSlice";
-import { random } from "../components/redux/colourSlice";
 
 export function Palette() {
   const navigate = useNavigate();
@@ -16,22 +15,33 @@ export function Palette() {
   const [minBlue, maxBlue] = [170, 280];
   const [minRand, maxRand] = [0, 359];
   const { colour } = useSelector((state) => state.colour);
-  const [randomHexes, setRandomHexes] = useState("");
   const user = useSelector(selectUser);
-  var currentHexes: string = randomHexes;
+  var currentHexes: string = "";
   let username = user.username;
+  var hexes: string = "";
 
   const getSavedRandom = () => {
     Axios.post("http://localhost:3001/getSavedRandom", {
-      randomHexes: randomHexes,
       username: username,
     }).then((response) => {
       if (response.data.message) {
-        setRandomHexes("");
       } else {
-        setRandomHexes(response.data[0].randomHexes);
+        hexes = response.data[0].savedRandom + currentHexes;
+        console.log("after axios hexes: " + hexes);
+        savedRandom();
+        console.log("after savedRandom()");
       }
     });
+  };
+
+  // #1fa36c #74aa8b #982ac0 #724053 
+  const savedRandom = () => {
+      Axios.post("http://localhost:3001/savedRandom", {
+        hexes: hexes,
+        username: username,
+      }).then((response) => {
+        console.log("result of savedRandom: " + response);
+      });
   };
 
   /**
@@ -115,8 +125,6 @@ export function Palette() {
             }}
             onClick={() => {
               getSavedRandom();
-              setRandomHexes(randomHexes + currentHexes);
-              console.log(randomHexes);
               navigate("/home/saved");
             }}
           >
@@ -130,7 +138,6 @@ export function Palette() {
               borderColor: "#481D52",
             }}
             onClick={() => {
-              console.log("this is randomHexes: " + randomHexes);
               navigate("/home");
             }}
           >

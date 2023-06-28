@@ -63,7 +63,6 @@ app.post("/checkusername", (req, res) => {
 
 app.post("/getSavedRandom", (req, res) => {
   const username = req.body.username;
-
   db.query(
     "SELECT savedRandom FROM users WHERE username = ?",
     [username],
@@ -79,18 +78,13 @@ app.post("/getSavedRandom", (req, res) => {
 });
 
 app.post("/savedRandom", (req, res) => {
-  const randomHexes = req.body.hexes;
+  const hexes = req.body.hexes;
   const username = req.body.username;
-
   db.query(
-    "UPDATE users SET savedRandom = ? WHERE username = ?",
-    [randomHexes, username],
+    "INSERT INTO users savedRandom VALUES ? WHERE username = ?",
+    [hexes, username],
     (err, result) => {
-      if (result.length > 0) {
-        res.send(result);
-      } else {
-        res.send({ message: "Some issue with /saveRandom" });
-      }
+      console.log(err);
     }
   );
 });
