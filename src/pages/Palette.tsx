@@ -15,8 +15,8 @@ export function Palette() {
   const [minRand, maxRand] = [0, 359];
   const { colour } = useSelector((state) => state.colour);
   const user = useSelector(selectUser);
+  var username = user.username;
   var currentHexes: string = "";
-  let username = user.username;
   var updatedHexes: string = "";
 
   const getSavedRandom = async () => {
