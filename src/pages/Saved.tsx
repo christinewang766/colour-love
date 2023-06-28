@@ -13,9 +13,8 @@ export function Saved() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   var username = user.username;
-  var randomHexes: string = "";
-  // var tempHexes: string = "#9e707e #1cd92f #8a0f44 #97946d #8d4502 #68ac74 #62414d #f3e2e3 #9986ca #eeead3 #a0caa0 #53611f ";
   const [groupedPalettes, setGroupPalettes] = useState<string[][]>([]);
+  const [showRandom, setShowRandom] = useState(true);
 
   const getSavedRandom = async () => {
     try {
@@ -28,7 +27,6 @@ export function Saved() {
       if (response.data[0].savedRandom !== null) {
         getPalettesHexes(response.data[0].savedRandom);
       }
-      console.log("after axios hexes: " + response.data[0].savedRandom);
     } catch (error) {
       console.log("ERROR: " + error);
     }
@@ -41,7 +39,7 @@ export function Saved() {
     ogHexesArr.pop();
     let palettes: string[] = [];
     let count: number = 0;
-    while (count < hexes.length) {
+    while (count < ogHexesArr.length) {
       for (let i = count; i < count + 4; i++) {
         palettes.push(ogHexesArr[i]);
       }
@@ -49,11 +47,9 @@ export function Saved() {
       palettes = [];
       count += 4;
     }
-    tempGPalettes.pop();
     setGroupPalettes(tempGPalettes);
   }
 
-  getSavedRandom();
   // ==========================================================================
   return (
     <div className={ThemeStyles.outerFrame} style={{ background: "#DD517E" }}>
@@ -78,10 +74,18 @@ export function Saved() {
           {/* {user.username}'s */}
           saved
         </h6>
-        {groupedPalettes.map((opt) => {
+        <div className={SavedStyles.category} onClick={()=>{
+          setShowRandom(!showRandom);
+          if(showRandom){
+            getSavedRandom()
+          } else {
+            setGroupPalettes([]);
+          }
+          }}>random</div>
+        {groupedPalettes.map((pal, i) => {
           return (
-            <div>
-              <SimplePalette hexes={opt} />
+            <div key={i}>
+              <SimplePalette hexes={pal} />
               <hr style={{ color: "#481D52" }} />
             </div>
           );
