@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Swatch from "../components/Swatch";
 import { Axios } from "axios";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { selectUser } from "../components/redux/userSlice";
+import { random } from "../components/redux/colourSlice";
 
 export function Palette() {
   const navigate = useNavigate();
@@ -18,20 +19,20 @@ export function Palette() {
   const [randomHexes, setRandomHexes] = useState("");
   const user = useSelector(selectUser);
   var currentHexes: string = randomHexes;
-  // let username = user.username;
+  let username = user.username;
 
-  // const savedRandom = () => {
-  //   Axios.post("http://localhost:3001/savedRandom", {
-  //     randomHexes: randomHexes,
-  //     username: username,
-  //   }).then((response) => {
-  //     if (response.data.message) {
-  //       // setRandomHexes(response.data.message);
-  //     } else {
-  //       // setRandomHexes(response.data[0].username);
-  //     }
-  //   });
-  // };
+  const getSavedRandom = () => {
+    Axios.post("http://localhost:3001/getSavedRandom", {
+      randomHexes: randomHexes,
+      username: username,
+    }).then((response) => {
+      if (response.data.message) {
+        setRandomHexes("");
+      } else {
+        setRandomHexes(response.data[0].randomHexes);
+      }
+    });
+  };
 
   /**
  * 
@@ -113,7 +114,9 @@ export function Palette() {
               borderColor: "#E68E35",
             }}
             onClick={() => {
-              setRandomHexes(currentHexes);
+              getSavedRandom();
+              setRandomHexes(randomHexes + currentHexes);
+              console.log(randomHexes);
               navigate("/home/saved");
             }}
           >

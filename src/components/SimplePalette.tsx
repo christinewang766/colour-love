@@ -1,5 +1,5 @@
 
-export function SimplePalette() {
+export function SimplePalette(props: { hexes: string[] }) {
 
     function SimpleSwatchBox(props: { hex: string })  {
         return (
@@ -13,10 +13,10 @@ export function SimplePalette() {
   return (
     /** container for palette */
     <div style={{background:"white", height:"15%", marginTop:"10px", display:"flex"}}>
-        <SimpleSwatchBox hex="red" />
-        <SimpleSwatchBox hex="pink" />
-        <SimpleSwatchBox hex="blue" />
-        <SimpleSwatchBox hex="green" />
+        <SimpleSwatchBox hex={props.hexes[0]}/>
+        <SimpleSwatchBox hex={props.hexes[1]} />
+        <SimpleSwatchBox hex={props.hexes[2]} />
+        <SimpleSwatchBox hex={props.hexes[3]} />
     </div>
   );
 }

@@ -10,6 +10,25 @@ import SimplePalette from "../components/SimplePalette";
 export function Saved() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
+  const hexes: string[] = ["red", "blue", "green", "pink"];
+
+  function ShowRandomPalettes() {
+    return (
+      <div>
+        <div className={SavedStyles.category}>random</div>
+        <SimplePalette hexes={hexes} />
+        <hr style={{ color: "#481D52" }} />
+        <SimplePalette hexes={hexes} />
+        <hr style={{ color: "#481D52" }} />
+        <SimplePalette hexes={hexes} />
+        <hr style={{ color: "#481D52" }} />
+        <SimplePalette hexes={hexes} />
+        <hr style={{ color: "#481D52" }} />
+        <SimplePalette hexes={hexes} />
+        <hr style={{ color: "#481D52" }} />
+      </div>
+    );
+  }
 
   // ==========================================================================
   return (
@@ -30,21 +49,15 @@ export function Saved() {
           }}
         />
       </button>
-      <div
-        className={SavedStyles.innerFrame}
-      >
+      <div className={SavedStyles.innerFrame}>
         <h6 className={PaletteStyles.title}>
           {/* {user.username}'s */}
           saved
         </h6>
-        <div className={SavedStyles.category}>random</div>
-        <SimplePalette/>
-        <SimplePalette/>
-        <SimplePalette/>
-        <SimplePalette/>
-        <SimplePalette/>
-        <SimplePalette/>
-        <SimplePalette/>
+        <ShowRandomPalettes />
+        <div className={SavedStyles.category}>red</div>
+        <div className={SavedStyles.category}>green</div>
+        <div className={SavedStyles.category}>blue</div>
       </div>
     </div>
   );
