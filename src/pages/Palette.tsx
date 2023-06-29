@@ -19,6 +19,7 @@ export function Palette() {
   var currentHexes: string = "";
   var updatedHexes: string = "";
 
+// RANDOM ==========================================================
   const getSavedRandom = async () => {
     try {
       const response = await Axios.post(
@@ -39,8 +40,7 @@ export function Palette() {
     }
   };
 
-  // #1fa36c #74aa8b #982ac0 #724053 
-  // #982ac0 #724053 #1fa36c #74aa8b 
+  // #1fa36c #74aa8b #982ac0 #724053 #982ac0 #724053 #1fa36c #74aa8b 
   const savedRandom = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/savedRandom", {
@@ -53,6 +53,104 @@ export function Palette() {
     }
   };
 
+// RED ==========================================================
+const getSavedRed = async () => {
+  try {
+    const response = await Axios.post(
+      "http://localhost:3001/getSavedRed",
+      {
+        username: username,
+      }
+    );
+    if (response.data[0].savedRed == null) {
+      updatedHexes = currentHexes;
+    } else {
+      updatedHexes = response.data[0].savedRed + currentHexes;
+    }
+    console.log("after axios updatedHexes: " + updatedHexes);
+    savedRed();
+  } catch (error) {
+    console.log("ERROR: " + error);
+  }
+};
+
+const savedRed = async () => {
+  try {
+    const response = await Axios.post("http://localhost:3001/savedRed", {
+      hexes: updatedHexes,
+      username: username,
+    });
+    console.log("RESPONSE savedRed: " + response);
+  } catch (error) {
+    console.log("ERROR savedRed: " + error);
+  }
+};
+
+// RED ==========================================================
+const getSavedGreen = async () => {
+  try {
+    const response = await Axios.post(
+      "http://localhost:3001/getSavedGreen",
+      {
+        username: username,
+      }
+    );
+    if (response.data[0].savedGreen == null) {
+      updatedHexes = currentHexes;
+    } else {
+      updatedHexes = response.data[0].savedGreen + currentHexes;
+    }
+    console.log("after axios updatedHexes: " + updatedHexes);
+    savedGreen();
+  } catch (error) {
+    console.log("ERROR: " + error);
+  }
+};
+
+const savedGreen = async () => {
+  try {
+    const response = await Axios.post("http://localhost:3001/savedGreen", {
+      hexes: updatedHexes,
+      username: username,
+    });
+    console.log("RESPONSE savedGreen: " + response);
+  } catch (error) {
+    console.log("ERROR savedGreen: " + error);
+  }
+};
+
+// BLUE ==========================================================
+const getSavedBlue = async () => {
+  try {
+    const response = await Axios.post(
+      "http://localhost:3001/getSavedBlue",
+      {
+        username: username,
+      }
+    );
+    if (response.data[0].savedBlue == null) {
+      updatedHexes = currentHexes;
+    } else {
+      updatedHexes = response.data[0].savedBlue + currentHexes;
+    }
+    console.log("after axios updatedHexes: " + updatedHexes);
+    savedBlue();
+  } catch (error) {
+    console.log("ERROR: " + error);
+  }
+};
+
+const savedBlue = async () => {
+  try {
+    const response = await Axios.post("http://localhost:3001/savedBlue", {
+      hexes: updatedHexes,
+      username: username,
+    });
+    console.log("RESPONSE savedBlue: " + response);
+  } catch (error) {
+    console.log("ERROR savedBlue: " + error);
+  }
+};
 
   /**
  * 
@@ -69,7 +167,6 @@ export function Palette() {
     if (colour == "random") {
       let hue = getRandomInt(minRand, maxRand);
       hex = hslToHex(hue, saturation, lightness);
-      currentHexes = currentHexes + hex + " ";
     } else if (colour == "red") {
       let hue = Math.round(Math.random())
         ? getRandomInt(minRed1, maxRed1)
@@ -82,6 +179,7 @@ export function Palette() {
       let hue = getRandomInt(minBlue, maxBlue);
       hex = hslToHex(hue, saturation, lightness);
     }
+    currentHexes = currentHexes + hex + " ";
     return hex;
   }
 
@@ -134,7 +232,15 @@ export function Palette() {
               borderColor: "#E68E35",
             }}
             onClick={() => {
+              if (colour == "random") {
               getSavedRandom();
+              } else if (colour == "red") {
+              getSavedRed();
+              } else if (colour == "green") {
+              getSavedGreen();
+              } else {
+              getSavedBlue();
+              }
               navigate("/home/saved");
             }}
           >

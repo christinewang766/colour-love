@@ -1,5 +1,5 @@
 
-export function SimplePalette(props: { hexes: string[] }) {
+export function SimplePalette(props: { hexes: string[]}) {
 
     function SimpleSwatchBox(props: { hex: string })  {
         return (

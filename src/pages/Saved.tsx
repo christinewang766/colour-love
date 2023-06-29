@@ -14,7 +14,10 @@ export function Saved() {
   const user = useSelector(selectUser);
   var username = user.username;
   const [groupedPalettes, setGroupPalettes] = useState<string[][]>([]);
-  const [showRandom, setShowRandom] = useState(true);
+  const [showRandom, setShowRandom] = useState(false);
+  const [showRed, setShowRed] = useState(false);
+  const [showGreen, setShowGreen] = useState(false);
+  const [showBlue, setShowBlue] = useState(false);
 
   const getSavedRandom = async () => {
     try {
@@ -32,7 +35,45 @@ export function Saved() {
     }
   };
 
-  // pass in hexes = savedHexes.split(' ')
+  const getSavedRed = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/getSavedRed", {
+        username: username,
+      });
+      if (response.data[0].savedRed !== null) {
+        getPalettesHexes(response.data[0].savedRed);
+      }
+    } catch (error) {
+      console.log("ERROR: " + error);
+    }
+  };
+
+  const getSavedGreen = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/getSavedGreen", {
+        username: username,
+      });
+      if (response.data[0].savedGreen !== null) {
+        getPalettesHexes(response.data[0].savedGreen);
+      }
+    } catch (error) {
+      console.log("ERROR: " + error);
+    }
+  };
+
+  const getSavedBlue = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/getSavedBlue", {
+        username: username,
+      });
+      if (response.data[0].savedBlue !== null) {
+        getPalettesHexes(response.data[0].savedBlue);
+      }
+    } catch (error) {
+      console.log("ERROR: " + error);
+    }
+  };
+
   function getPalettesHexes(hexes: string) {
     let tempGPalettes: string[][] = [];
     let ogHexesArr = hexes.split(" ");
@@ -74,29 +115,98 @@ export function Saved() {
           {/* {user.username}'s */}
           saved
         </h6>
-        <div className={SavedStyles.category} onClick={()=>{
-          setShowRandom(!showRandom);
-          if(showRandom){
-            getSavedRandom()
-          } else {
-            setGroupPalettes([]);
-          }
-          }}>random</div>
-        {groupedPalettes.map((pal, i) => {
-          return (
-            <div key={i}>
-              <SimplePalette hexes={pal} />
-              <hr style={{ color: "#481D52" }} />
-            </div>
-          );
-        })}
         <div
           className={SavedStyles.category}
+          onClick={() => {
+            setGroupPalettes([]);
+            setShowRed(false);
+            setShowGreen(false);
+            setShowBlue(false);
+            setShowRandom(!showRandom);
+            getSavedRandom();
+          }}
+        >
+          random
+        </div>
+        {showRandom &&
+          groupedPalettes.map((pal, i) => {
+            const handler = function(e){
+              console.log(e.currentTarget.dataset.index);
+          };
+
+            return (
+              <div key={i} data-index={i} onClick={ handler }>
+                <SimplePalette hexes={pal}/>
+                <hr style={{ color: "#481D52" }} />
+              </div>
+            );
+          })}
+        <div
+          className={SavedStyles.category}
+          onClick={() => {
+            setGroupPalettes([]);
+            setShowRandom(false);
+            setShowGreen(false);
+            setShowBlue(false);
+            setShowRed(!showRed);
+            getSavedRed();
+          }}
         >
           red
         </div>
-        <div className={SavedStyles.category}>green</div>
-        <div className={SavedStyles.category}>blue</div>
+        {showRed &&
+          groupedPalettes.map((pal, i) => {
+            return (
+              <div key={i}>
+                <SimplePalette hexes={pal} />
+                <hr style={{ color: "#481D52" }} />
+              </div>
+            );
+          })}
+        <div
+          className={SavedStyles.category}
+          onClick={() => {
+            setGroupPalettes([]);
+            setShowRandom(false);
+            setShowRed(false);
+            setShowBlue(false);
+            setShowGreen(!showGreen);
+            getSavedGreen();
+          }}
+        >
+          green
+        </div>
+        {showGreen &&
+          groupedPalettes.map((pal, i) => {
+            return (
+              <div key={i}>
+                <SimplePalette hexes={pal} />
+                <hr style={{ color: "#481D52" }} />
+              </div>
+            );
+          })}
+        <div
+          className={SavedStyles.category}
+          onClick={() => {
+            setGroupPalettes([]);
+            setShowRandom(false);
+            setShowRed(false);
+            setShowGreen(false);
+            setShowBlue(!showBlue);
+            getSavedBlue();
+          }}
+        >
+          blue
+        </div>
+        {showBlue &&
+          groupedPalettes.map((pal, i) => {
+            return (
+              <div key={i}>
+                <SimplePalette hexes={pal} />
+                <hr style={{ color: "#481D52" }} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
