@@ -12,7 +12,7 @@ export function SimplePalette(props: { hexes: string[]}) {
   // ==========================================================================
   return (
     /** container for palette */
-    <div style={{background:"white", height:"15%", marginTop:"10px", display:"flex"}}>
+    <div style={{height:"15%", marginTop:"10px", display:"flex"}}>
         <SimpleSwatchBox hex={props.hexes[0]}/>
         <SimpleSwatchBox hex={props.hexes[1]} />
         <SimpleSwatchBox hex={props.hexes[2]} />

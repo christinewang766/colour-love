@@ -2,17 +2,18 @@ import ThemeStyles from "../styling/Theme.module.css";
 import PaletteStyles from "../styling/Palette.module.css";
 import SavedStyles from "../styling/Saved.module.css";
 import { useNavigate } from "react-router-dom";
-import { ImExit } from "react-icons/im";
+import { ImBin, ImExit } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { selectUser } from "../components/redux/userSlice";
 import SimplePalette from "../components/SimplePalette";
 import Axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function Saved() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   var username = user.username;
+  const [index, setIndex] = useState(-1);
   const [groupedPalettes, setGroupPalettes] = useState<string[][]>([]);
   const [showRandom, setShowRandom] = useState(false);
   const [showRed, setShowRed] = useState(false);
@@ -74,6 +75,18 @@ export function Saved() {
     }
   };
 
+  const savedRandom = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedRandom", {
+        hexes: groupedPalettes.join().split(',').join(' ') + ' ',
+        username: username,
+      });
+      console.log("RESPONSE savedRandom: " + response);
+    } catch (error) {
+      console.log("ERROR savedRandom: " + error);
+    }
+  };
+
   function getPalettesHexes(hexes: string) {
     let tempGPalettes: string[][] = [];
     let ogHexesArr = hexes.split(" ");
@@ -89,6 +102,29 @@ export function Saved() {
       count += 4;
     }
     setGroupPalettes(tempGPalettes);
+  }
+
+  useEffect(() => {
+    console.log("index: " + index);
+    let tempGPalettes: string[][] = [];
+    for (let i = 0; i < groupedPalettes.length; i++) {
+      if (i !== index) {
+        tempGPalettes.push(groupedPalettes[i]);
+      }
+    }
+    setGroupPalettes(tempGPalettes);
+    console.log("temp: " + tempGPalettes);
+    console.log("gPalettes: " + groupedPalettes);
+    setIndex(-1);
+  }, [index]);
+
+  const handleDelete = () => {
+    if (showRandom) {
+      savedRandom();
+    } else if (showRed) {
+    } else if (showGreen) {
+    } else {
+    }
   }
 
   // ==========================================================================
@@ -130,13 +166,19 @@ export function Saved() {
         </div>
         {showRandom &&
           groupedPalettes.map((pal, i) => {
-            const handler = function(e){
-              console.log(e.currentTarget.dataset.index);
-          };
-
             return (
-              <div key={i} data-index={i} onClick={ handler }>
-                <SimplePalette hexes={pal}/>
+              <div key={i}>
+                <SimplePalette hexes={pal} />
+                <button
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => {
+                    setIndex(i);
+                    handleDelete();
+                  }}
+                >
+                  <ImBin /> delete
+                </button>
+
                 <hr style={{ color: "#481D52" }} />
               </div>
             );
