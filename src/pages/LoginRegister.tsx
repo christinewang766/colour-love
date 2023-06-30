@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../components/redux/userSlice";
+import { motion } from "framer-motion";
 
 export function LoginRegister() {
   const navigate = useNavigate();
@@ -71,7 +72,12 @@ export function LoginRegister() {
   /** HELPERS ========================================= */
 
   const isValidSyntax = (str1: string, str2: string) => {
-    if (/^[a-z0-9]+$/gi.test(str1) && /^[a-z0-9]+$/gi.test(str2) && str1.length > 3 && str2.length > 3) {
+    if (
+      /^[a-z0-9]+$/gi.test(str1) &&
+      /^[a-z0-9]+$/gi.test(str2) &&
+      str1.length > 3 &&
+      str2.length > 3
+    ) {
       setSubmit(true);
     } else {
       setSubmit(false);
@@ -107,14 +113,19 @@ export function LoginRegister() {
           }}
         >
           {/* ICON ======================================================*/}
-
-          <img
-            onClick={() => navigate("/")}
-            src={Icon}
-            style={{ maxWidth: "80px", paddingRight: "25px" }}
-            alt="icon"
-          />
-
+          <motion.div
+            className="box"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <img
+              onClick={() => navigate("/")}
+              src={Icon}
+              style={{ maxWidth: "80px", paddingRight: "25px" }}
+              alt="icon"
+            />
+          </motion.div>
           {/* TITLE ======================================================*/}
 
           <h1 className={PaletteStyles.title}>Welcome</h1>
@@ -178,66 +189,78 @@ export function LoginRegister() {
             show={!available}
             key="info"
             variant="info"
-          >"{usernameReg}" is an existing user. If you are trying to register, choose another username.</Alert>
+          >
+            "{usernameReg}" is an existing user. If you are trying to register,
+            choose another username.
+          </Alert>
 
           {/* LOGIN BUTTON ======================================================*/}
           {/* disabled: true when can not submit or is not login */}
 
           <div className={FormStyles.buttonContainer}>
-            <button
-              disabled={!submit || !isLogin}
-              style={{
-                background: submit && isLogin ? "#FFFFFF" : "#8A8A8A",
-                border:
-                  submit && isLogin ? "5px solid #BF7037" : "5px solid black",
-                color: submit && isLogin ? "#BF7037" : "black",
-              }}
-              className={FormStyles.button}
-              onClick={() => {
-                login();
-                clearForm();
-                setIsLogin(false);
-                setSubmit(false);
-                navigate("/home");
-                dispatch(loginUser({
-                  username: usernameReg,
-                  password: passwordReg, 
-                  loggedIn: true
-                }));
-              }}
-              value="login"
-            >
-              login
-            </button>
+            <motion.div whileHover={{ scale: submit && isLogin ? 0.8 : 1 }}>
+              <button
+                disabled={!submit || !isLogin}
+                style={{
+                  background: submit && isLogin ? "#FFFFFF" : "#8A8A8A",
+                  border:
+                    submit && isLogin ? "5px solid #BF7037" : "5px solid black",
+                  color: submit && isLogin ? "#BF7037" : "black",
+                }}
+                className={FormStyles.button}
+                onClick={() => {
+                  login();
+                  clearForm();
+                  setIsLogin(false);
+                  setSubmit(false);
+                  navigate("/home");
+                  dispatch(
+                    loginUser({
+                      username: usernameReg,
+                      password: passwordReg,
+                      loggedIn: true,
+                    })
+                  );
+                }}
+                value="login"
+              >
+                login
+              </button>
+            </motion.div>
 
             {/* REGISTRATION BUTTON ======================================================*/}
             {/* disabled: true when can not submit or when user is not available */}
-
-            <button
-              disabled={!submit || !available}
-              style={{
-                marginRight: "20px",
-                background: submit && available ? "#FFFFFF" : "#8A8A8A",
-                border:
-                  submit && available ? "5px solid #BF7037" : "5px solid black",
-                color: submit && available ? "#BF7037" : "black",
-              }}
-              className={FormStyles.button}
-              value="register"
-              onClick={() => {
-                register();
-                clearForm();
-                setSubmit(false);
-                navigate("/home");
-                dispatch(loginUser({
-                  username: usernameReg,
-                  password: passwordReg, 
-                  loggedIn: true
-                }));
-              }}
-            >
-              register
-            </button>
+            <motion.div whileHover={{ scale: submit && available ? 0.8 : 1 }}>
+              <button
+                disabled={!submit || !available}
+                style={{
+                  marginRight: "20px",
+                  background: submit && available ? "#FFFFFF" : "#8A8A8A",
+                  border:
+                    submit && available
+                      ? "5px solid #BF7037"
+                      : "5px solid black",
+                  color: submit && available ? "#BF7037" : "black",
+                }}
+                className={FormStyles.button}
+                value="register"
+                onClick={() => {
+                  register();
+                  clearForm();
+                  setSubmit(false);
+                  navigate("/home");
+                  dispatch(
+                    loginUser({
+                      username: usernameReg,
+                      password: passwordReg,
+                      loggedIn: true,
+                    })
+                  );
+                }}
+              >
+                register
+              </button>
+            </motion.div>
           </div>
           <h1>{user}</h1>
         </div>

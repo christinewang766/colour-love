@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, selectUser } from "../components/redux/userSlice";
 import { ImExit } from "react-icons/im";
 import { random } from "../components/redux/colourSlice";
+import { motion } from "framer-motion";
 
 export function Home() {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
@@ -27,6 +28,7 @@ export function Home() {
     setShowDropDown(!showDropDown);
   };
 
+  
   // ==========================================================================
   return (
     <div className={ThemeStyles.outerFrame} style={{ background: "#DD517E" }}>
@@ -60,7 +62,21 @@ export function Home() {
         >
           {user.username}'s
         </h6>
+        <motion.div
+                whileHover={{ rotate: 10 }}
+                transition={{
+                    type: "spring",
+                    damping: 10,
+                    mass: 0.75,
+                    stiffness: 100,
+                }}>
         <img src={Saved} onClick={() => navigate("saved")} />
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        >
         <button
           className={ThemeStyles.button}
           style={{ border: "5px solid #481D52" }}
@@ -71,12 +87,19 @@ export function Home() {
         >
           Surprise Me
         </button>
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        >
         <button
           className={ThemeStyles.button}
           onClick={(): void => toggleDropDown()}
         >
           Random RGB
         </button>
+        </motion.div>
 
         {showDropDown && (
           <DropDown

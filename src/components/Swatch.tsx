@@ -1,4 +1,3 @@
-import { Alert } from "react-bootstrap";
 import PaletteStyles from "../styling/Palette.module.css";
 import { useState } from "react";
 

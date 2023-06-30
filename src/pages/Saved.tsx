@@ -8,9 +8,9 @@ import { selectUser } from "../components/redux/userSlice";
 import SimplePalette from "../components/SimplePalette";
 import Axios from "axios";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export function Saved() {
-  
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   var username = user.username;
@@ -205,20 +205,26 @@ export function Saved() {
           {/* {user.username}'s */}
           saved
         </h6>
-        <div
-          className={SavedStyles.category}
-          onClick={() => {
-            setGroupPalettes([]);
-            setShowRed(false);
-            setShowGreen(false);
-            setShowBlue(false);
-            setShowRandom(!showRandom);
-            getSavedRandom();
-            console.log(showRandom);
-          }}
+        <motion.div
+          whileHover={{ scale: 0.95 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          random
-        </div>
+          <div
+            className={SavedStyles.category}
+            onClick={() => {
+              setGroupPalettes([]);
+              setShowRed(false);
+              setShowGreen(false);
+              setShowBlue(false);
+              setShowRandom(!showRandom);
+              getSavedRandom();
+              console.log(showRandom);
+            }}
+          >
+            random
+          </div>
+        </motion.div>
         {showRandom &&
           groupedPalettes.map((pal, i) => {
             return (
@@ -237,19 +243,25 @@ export function Saved() {
               </div>
             );
           })}
-        <div
-          className={SavedStyles.category}
-          onClick={() => {
-            setGroupPalettes([]);
-            setShowRandom(false);
-            setShowGreen(false);
-            setShowBlue(false);
-            setShowRed(!showRed);
-            getSavedRed();
-          }}
+        <motion.div
+          whileHover={{ scale: 0.95 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          red
-        </div>
+          <div
+            className={SavedStyles.category}
+            onClick={() => {
+              setGroupPalettes([]);
+              setShowRandom(false);
+              setShowGreen(false);
+              setShowBlue(false);
+              setShowRed(!showRed);
+              getSavedRed();
+            }}
+          >
+            red
+          </div>
+        </motion.div>
         {showRed &&
           groupedPalettes.map((pal, i) => {
             return (
@@ -267,19 +279,25 @@ export function Saved() {
               </div>
             );
           })}
-        <div
-          className={SavedStyles.category}
-          onClick={() => {
-            setGroupPalettes([]);
-            setShowRandom(false);
-            setShowRed(false);
-            setShowBlue(false);
-            setShowGreen(!showGreen);
-            getSavedGreen();
-          }}
+        <motion.div
+          whileHover={{ scale: 0.95 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          green
-        </div>
+          <div
+            className={SavedStyles.category}
+            onClick={() => {
+              setGroupPalettes([]);
+              setShowRandom(false);
+              setShowRed(false);
+              setShowBlue(false);
+              setShowGreen(!showGreen);
+              getSavedGreen();
+            }}
+          >
+            green
+          </div>
+        </motion.div>
         {showGreen &&
           groupedPalettes.map((pal, i) => {
             return (
@@ -297,19 +315,25 @@ export function Saved() {
               </div>
             );
           })}
-        <div
-          className={SavedStyles.category}
-          onClick={() => {
-            setGroupPalettes([]);
-            setShowRandom(false);
-            setShowRed(false);
-            setShowGreen(false);
-            setShowBlue(!showBlue);
-            getSavedBlue();
-          }}
+        <motion.div
+          whileHover={{ scale: 0.95 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          blue
-        </div>
+          <div
+            className={SavedStyles.category}
+            onClick={() => {
+              setGroupPalettes([]);
+              setShowRandom(false);
+              setShowRed(false);
+              setShowGreen(false);
+              setShowBlue(!showBlue);
+              getSavedBlue();
+            }}
+          >
+            blue
+          </div>
+        </motion.div>
         {showBlue &&
           groupedPalettes.map((pal, i) => {
             return (

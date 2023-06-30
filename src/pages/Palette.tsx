@@ -5,6 +5,7 @@ import Swatch from "../components/Swatch";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "../components/redux/userSlice";
+import { motion } from "framer-motion";
 
 export function Palette() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export function Palette() {
   var currentHexes: string = "";
   var updatedHexes: string = "";
 
-// RANDOM ==========================================================
+  // RANDOM ==========================================================
   const getSavedRandom = async () => {
     try {
       const response = await Axios.post(
@@ -40,7 +41,7 @@ export function Palette() {
     }
   };
 
-  // #1fa36c #74aa8b #982ac0 #724053 #982ac0 #724053 #1fa36c #74aa8b 
+  // #1fa36c #74aa8b #982ac0 #724053 #982ac0 #724053 #1fa36c #74aa8b
   const savedRandom = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/savedRandom", {
@@ -53,104 +54,95 @@ export function Palette() {
     }
   };
 
-// RED ==========================================================
-const getSavedRed = async () => {
-  try {
-    const response = await Axios.post(
-      "http://localhost:3001/getSavedRed",
-      {
+  // RED ==========================================================
+  const getSavedRed = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/getSavedRed", {
         username: username,
+      });
+      if (response.data[0].savedRed == null) {
+        updatedHexes = currentHexes;
+      } else {
+        updatedHexes = response.data[0].savedRed + currentHexes;
       }
-    );
-    if (response.data[0].savedRed == null) {
-      updatedHexes = currentHexes;
-    } else {
-      updatedHexes = response.data[0].savedRed + currentHexes;
+      console.log("after axios updatedHexes: " + updatedHexes);
+      savedRed();
+    } catch (error) {
+      console.log("ERROR: " + error);
     }
-    console.log("after axios updatedHexes: " + updatedHexes);
-    savedRed();
-  } catch (error) {
-    console.log("ERROR: " + error);
-  }
-};
+  };
 
-const savedRed = async () => {
-  try {
-    const response = await Axios.post("http://localhost:3001/savedRed", {
-      hexes: updatedHexes,
-      username: username,
-    });
-    console.log("RESPONSE savedRed: " + response);
-  } catch (error) {
-    console.log("ERROR savedRed: " + error);
-  }
-};
-
-// RED ==========================================================
-const getSavedGreen = async () => {
-  try {
-    const response = await Axios.post(
-      "http://localhost:3001/getSavedGreen",
-      {
+  const savedRed = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedRed", {
+        hexes: updatedHexes,
         username: username,
-      }
-    );
-    if (response.data[0].savedGreen == null) {
-      updatedHexes = currentHexes;
-    } else {
-      updatedHexes = response.data[0].savedGreen + currentHexes;
+      });
+      console.log("RESPONSE savedRed: " + response);
+    } catch (error) {
+      console.log("ERROR savedRed: " + error);
     }
-    console.log("after axios updatedHexes: " + updatedHexes);
-    savedGreen();
-  } catch (error) {
-    console.log("ERROR: " + error);
-  }
-};
+  };
 
-const savedGreen = async () => {
-  try {
-    const response = await Axios.post("http://localhost:3001/savedGreen", {
-      hexes: updatedHexes,
-      username: username,
-    });
-    console.log("RESPONSE savedGreen: " + response);
-  } catch (error) {
-    console.log("ERROR savedGreen: " + error);
-  }
-};
-
-// BLUE ==========================================================
-const getSavedBlue = async () => {
-  try {
-    const response = await Axios.post(
-      "http://localhost:3001/getSavedBlue",
-      {
+  // RED ==========================================================
+  const getSavedGreen = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/getSavedGreen", {
         username: username,
+      });
+      if (response.data[0].savedGreen == null) {
+        updatedHexes = currentHexes;
+      } else {
+        updatedHexes = response.data[0].savedGreen + currentHexes;
       }
-    );
-    if (response.data[0].savedBlue == null) {
-      updatedHexes = currentHexes;
-    } else {
-      updatedHexes = response.data[0].savedBlue + currentHexes;
+      console.log("after axios updatedHexes: " + updatedHexes);
+      savedGreen();
+    } catch (error) {
+      console.log("ERROR: " + error);
     }
-    console.log("after axios updatedHexes: " + updatedHexes);
-    savedBlue();
-  } catch (error) {
-    console.log("ERROR: " + error);
-  }
-};
+  };
 
-const savedBlue = async () => {
-  try {
-    const response = await Axios.post("http://localhost:3001/savedBlue", {
-      hexes: updatedHexes,
-      username: username,
-    });
-    console.log("RESPONSE savedBlue: " + response);
-  } catch (error) {
-    console.log("ERROR savedBlue: " + error);
-  }
-};
+  const savedGreen = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedGreen", {
+        hexes: updatedHexes,
+        username: username,
+      });
+      console.log("RESPONSE savedGreen: " + response);
+    } catch (error) {
+      console.log("ERROR savedGreen: " + error);
+    }
+  };
+
+  // BLUE ==========================================================
+  const getSavedBlue = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/getSavedBlue", {
+        username: username,
+      });
+      if (response.data[0].savedBlue == null) {
+        updatedHexes = currentHexes;
+      } else {
+        updatedHexes = response.data[0].savedBlue + currentHexes;
+      }
+      console.log("after axios updatedHexes: " + updatedHexes);
+      savedBlue();
+    } catch (error) {
+      console.log("ERROR: " + error);
+    }
+  };
+
+  const savedBlue = async () => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedBlue", {
+        hexes: updatedHexes,
+        username: username,
+      });
+      console.log("RESPONSE savedBlue: " + response);
+    } catch (error) {
+      console.log("ERROR savedBlue: " + error);
+    }
+  };
 
   /**
  * 
@@ -225,39 +217,51 @@ const savedBlue = async () => {
         </div>
 
         <div className={PaletteStyles.returnContainer}>
-          <button
-            className={PaletteStyles.button}
-            style={{
-              color: "#E68E35",
-              borderColor: "#E68E35",
-            }}
-            onClick={() => {
-              if (colour == "random") {
-              getSavedRandom();
-              } else if (colour == "red") {
-              getSavedRed();
-              } else if (colour == "green") {
-              getSavedGreen();
-              } else {
-              getSavedBlue();
-              }
-            }}
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Save
-          </button>
+            <button
+              className={PaletteStyles.button}
+              style={{
+                color: "#E68E35",
+                borderColor: "#E68E35",
+              }}
+              onClick={() => {
+                if (colour == "random") {
+                  getSavedRandom();
+                } else if (colour == "red") {
+                  getSavedRed();
+                } else if (colour == "green") {
+                  getSavedGreen();
+                } else {
+                  getSavedBlue();
+                }
+              }}
+            >
+              Save
+            </button>
+          </motion.div>
           <div className={PaletteStyles.buttonGap} />
-          <button
-            className={PaletteStyles.button}
-            style={{
-              color: "#481D52",
-              borderColor: "#481D52",
-            }}
-            onClick={() => {
-              navigate("/home");
-            }}
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Return Home
-          </button>
+            <button
+              className={PaletteStyles.button}
+              style={{
+                color: "#481D52",
+                borderColor: "#481D52",
+              }}
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              Return Home
+            </button>
+          </motion.div>
         </div>
       </div>
     </div>

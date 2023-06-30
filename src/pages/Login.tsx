@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useSound from "use-sound";
 import Woof from "../components/music/woof.mp3";
+import { motion } from "framer-motion";
 
 export function Login() {
   const navigate = useNavigate();
@@ -58,20 +59,26 @@ export function Login() {
           id="cursor"
           src={Dog}
         ></img>
-        <button
-          className={ThemeStyles.button}
-          style={{
-            color: "white",
-            background: "#556CC9",
-            border: "5px solid #fff",
-          }}
-          onClick={() => {
-            stop();
-            navigate("loginregister");
-          }}
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          Welcome
-        </button>
+          <button
+            className={ThemeStyles.button}
+            style={{
+              color: "white",
+              background: "#556CC9",
+              border: "5px solid #fff",
+            }}
+            onClick={() => {
+              stop();
+              navigate("loginregister");
+            }}
+          >
+            Welcome
+          </button>
+        </motion.div>
         <p
           style={{
             fontFamily: "cursive",
