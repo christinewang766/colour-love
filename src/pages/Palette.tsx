@@ -6,6 +6,9 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "../components/redux/userSlice";
 import { motion } from "framer-motion";
+import useSound from "use-sound";
+import Saved from "../components/music/saved.mp3";
+
 
 export function Palette() {
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ export function Palette() {
   const [minBlue, maxBlue] = [170, 280];
   const [minRand, maxRand] = [0, 359];
   const { colour } = useSelector((state) => state.colour);
+  const [playSaved] = useSound(Saved);
   const user = useSelector(selectUser);
   var username = user.username;
   var currentHexes: string = "";
@@ -238,6 +242,7 @@ export function Palette() {
                 } else {
                   getSavedBlue();
                 }
+                playSaved();
               }}
             >
               Save
