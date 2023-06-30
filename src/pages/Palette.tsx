@@ -241,7 +241,6 @@ const savedBlue = async () => {
               } else {
               getSavedBlue();
               }
-              navigate("/home/saved");
             }}
           >
             Save

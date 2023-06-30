@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../components/redux/userSlice";
 import SimplePalette from "../components/SimplePalette";
 import Axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function Saved() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ export function Saved() {
   const [showRed, setShowRed] = useState(false);
   const [showGreen, setShowGreen] = useState(false);
   const [showBlue, setShowBlue] = useState(false);
+  const [temp, setTemp] = useState("");
 
   const getSavedRandom = async () => {
     try {
@@ -30,6 +31,7 @@ export function Saved() {
       );
       if (response.data[0].savedRandom !== null) {
         getPalettesHexes(response.data[0].savedRandom);
+        console.log("getSavedRandom: " + response.data[0].savedRandom);
       }
     } catch (error) {
       console.log("ERROR: " + error);
@@ -75,10 +77,10 @@ export function Saved() {
     }
   };
 
-  const savedRandom = async () => {
+  const savedRandom = async (hexes: string) => {
     try {
       const response = await Axios.post("http://localhost:3001/savedRandom", {
-        hexes: groupedPalettes.join().split(',').join(' ') + ' ',
+        hexes: hexes,
         username: username,
       });
       console.log("RESPONSE savedRandom: " + response);
@@ -104,28 +106,37 @@ export function Saved() {
     setGroupPalettes(tempGPalettes);
   }
 
+  // *******************************************************88
   useEffect(() => {
-    console.log("index: " + index);
-    let tempGPalettes: string[][] = [];
-    for (let i = 0; i < groupedPalettes.length; i++) {
-      if (i !== index) {
-        tempGPalettes.push(groupedPalettes[i]);
+    async function func1() {
+      /* function body that changes stateUpdatedByFunc1 */
+      console.log("index: " + index);
+      let tempGPalettes: string[][] = [];
+      for (let i = 0; i < groupedPalettes.length; i++) {
+        if (i !== index) {
+          tempGPalettes.push(groupedPalettes[i]);
+        }
+      }
+      setTemp(tempGPalettes.join().split(",").join(" ") + " ");
+    }
+    if (index !== -1) {
+      func1();
+    }
+  }, [index]); // only executes on component mounting phase
+
+  useEffect(() => {
+    console.log("temp: " + temp);
+    async function func2() {
+      if (showRandom) {
+        savedRandom(temp);
       }
     }
-    setGroupPalettes(tempGPalettes);
-    console.log("temp: " + tempGPalettes);
-    console.log("gPalettes: " + groupedPalettes);
-    setIndex(-1);
-  }, [index]);
-
-  const handleDelete = () => {
-    if (showRandom) {
-      savedRandom();
-    } else if (showRed) {
-    } else if (showGreen) {
-    } else {
+    if (temp !== "" && temp !== " ") {
+      func2();
+      setTemp("");
     }
-  }
+    setIndex(-1);
+  }, [temp]);
 
   // ==========================================================================
   return (
@@ -173,7 +184,6 @@ export function Saved() {
                   style={{ background: "none", border: "none" }}
                   onClick={() => {
                     setIndex(i);
-                    handleDelete();
                   }}
                 >
                   <ImBin /> delete
