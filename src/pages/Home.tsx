@@ -43,11 +43,12 @@ export function Home() {
           size={40}
           onClick={() => {
             handleLogout();
+            window.location.reload();
           }}
         />
       </button>
       <div className={ThemeStyles.innerFrame} style={{ background: "#7A98ED" }}>
-        {/* <h6
+        <h6
           style={{
             color: "#481D52",
             fontFamily: "monospace",
@@ -58,7 +59,7 @@ export function Home() {
           }}
         >
           {user.username}'s
-        </h6> */}
+        </h6>
         <img src={Saved} onClick={() => navigate("saved")} />
         <button
           className={ThemeStyles.button}

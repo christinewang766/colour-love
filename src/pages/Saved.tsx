@@ -7,9 +7,10 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../components/redux/userSlice";
 import SimplePalette from "../components/SimplePalette";
 import Axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function Saved() {
+  
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   var username = user.username;
@@ -31,7 +32,6 @@ export function Saved() {
       );
       if (response.data[0].savedRandom !== null) {
         getPalettesHexes(response.data[0].savedRandom);
-        console.log("getSavedRandom: " + response.data[0].savedRandom);
       }
     } catch (error) {
       console.log("ERROR: " + error);
@@ -89,6 +89,42 @@ export function Saved() {
     }
   };
 
+  const savedRed = async (hexes: string) => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedRed", {
+        hexes: hexes,
+        username: username,
+      });
+      console.log("RESPONSE savedRed: " + response);
+    } catch (error) {
+      console.log("ERROR savedRed: " + error);
+    }
+  };
+
+  const savedGreen = async (hexes: string) => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedGreen", {
+        hexes: hexes,
+        username: username,
+      });
+      console.log("RESPONSE savedGreen: " + response);
+    } catch (error) {
+      console.log("ERROR savedGreen: " + error);
+    }
+  };
+
+  const savedBlue = async (hexes: string) => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedBlue", {
+        hexes: hexes,
+        username: username,
+      });
+      console.log("RESPONSE savedBlue: " + response);
+    } catch (error) {
+      console.log("ERROR savedBlue: " + error);
+    }
+  };
+
   function getPalettesHexes(hexes: string) {
     let tempGPalettes: string[][] = [];
     let ogHexesArr = hexes.split(" ");
@@ -109,8 +145,6 @@ export function Saved() {
   // *******************************************************88
   useEffect(() => {
     async function func1() {
-      /* function body that changes stateUpdatedByFunc1 */
-      console.log("index: " + index);
       let tempGPalettes: string[][] = [];
       for (let i = 0; i < groupedPalettes.length; i++) {
         if (i !== index) {
@@ -122,13 +156,22 @@ export function Saved() {
     if (index !== -1) {
       func1();
     }
-  }, [index]); // only executes on component mounting phase
+  }, [index]);
 
   useEffect(() => {
     console.log("temp: " + temp);
     async function func2() {
       if (showRandom) {
         savedRandom(temp);
+      }
+      if (showRed) {
+        savedRed(temp);
+      }
+      if (showGreen) {
+        savedGreen(temp);
+      }
+      if (showBlue) {
+        savedBlue(temp);
       }
     }
     if (temp !== "" && temp !== " ") {
@@ -171,6 +214,7 @@ export function Saved() {
             setShowBlue(false);
             setShowRandom(!showRandom);
             getSavedRandom();
+            console.log(showRandom);
           }}
         >
           random
@@ -211,6 +255,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
+                <button
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => {
+                    setIndex(i);
+                  }}
+                >
+                  <ImBin /> delete
+                </button>
                 <hr style={{ color: "#481D52" }} />
               </div>
             );
@@ -233,6 +285,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
+                <button
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => {
+                    setIndex(i);
+                  }}
+                >
+                  <ImBin /> delete
+                </button>
                 <hr style={{ color: "#481D52" }} />
               </div>
             );
@@ -255,6 +315,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
+                <button
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => {
+                    setIndex(i);
+                  }}
+                >
+                  <ImBin /> delete
+                </button>
                 <hr style={{ color: "#481D52" }} />
               </div>
             );
