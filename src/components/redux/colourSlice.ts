@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/** STATES: represent various colour palette options {random, red, green, blue} */
 const colourState = createSlice({
   name: "colourState",
   initialState: {

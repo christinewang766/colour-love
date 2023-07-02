@@ -1,27 +1,37 @@
+// @ts-ignore
 import ThemeStyles from "../styling/Theme.module.css";
+// @ts-ignore
 import PaletteStyles from "../styling/Palette.module.css";
+// @ts-ignore
 import SavedStyles from "../styling/Saved.module.css";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImBin, ImExit } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { selectUser } from "../components/redux/userSlice";
-import SimplePalette from "../components/SimplePalette";
+import { ImBin, ImExit } from "react-icons/im";
 import Axios from "axios";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import SimplePalette from "../components/SimplePalette";
 
+/** SHOWS USER'S PREVIOUSLY SAVED {random, red, green, blue} PALETTES */
 export function Saved() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
+  // @ts-ignore
   var username = user.username;
-  const [index, setIndex] = useState(-1);
-  const [groupedPalettes, setGroupPalettes] = useState<string[][]>([]);
+
   const [showRandom, setShowRandom] = useState(false);
   const [showRed, setShowRed] = useState(false);
   const [showGreen, setShowGreen] = useState(false);
   const [showBlue, setShowBlue] = useState(false);
+  const [index, setIndex] = useState(-1);
+  const [groupedPalettes, setGroupPalettes] = useState<string[][]>([]);
   const [temp, setTemp] = useState("");
 
+  /** ========================= SERVER MYSQL CONNECTION ========================= */
+
+  /** RANDOM *********************************************************** */
+  /** RETRIEVE: user's savedRandom data */
   const getSavedRandom = async () => {
     try {
       const response = await Axios.post(
@@ -38,6 +48,21 @@ export function Saved() {
     }
   };
 
+  /** UPDATE: user's savedRandom data */
+  const savedRandom = async (hexes: string) => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedRandom", {
+        hexes: hexes,
+        username: username,
+      });
+      console.log("RESPONSE savedRandom: " + response);
+    } catch (error) {
+      console.log("ERROR savedRandom: " + error);
+    }
+  };
+
+  /** RED *********************************************************** */
+  /** RETRIEVE: user's savedRed data */
   const getSavedRed = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/getSavedRed", {
@@ -51,6 +76,21 @@ export function Saved() {
     }
   };
 
+  /** UPDATE: user's savedRed data */
+  const savedRed = async (hexes: string) => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedRed", {
+        hexes: hexes,
+        username: username,
+      });
+      console.log("RESPONSE savedRed: " + response);
+    } catch (error) {
+      console.log("ERROR savedRed: " + error);
+    }
+  };
+
+  /** GREEN *********************************************************** */
+  /** RETRIEVE: user's savedGreen data */
   const getSavedGreen = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/getSavedGreen", {
@@ -64,6 +104,21 @@ export function Saved() {
     }
   };
 
+  /** UPDATE: user's savedGreen data */
+  const savedGreen = async (hexes: string) => {
+    try {
+      const response = await Axios.post("http://localhost:3001/savedGreen", {
+        hexes: hexes,
+        username: username,
+      });
+      console.log("RESPONSE savedGreen: " + response);
+    } catch (error) {
+      console.log("ERROR savedGreen: " + error);
+    }
+  };
+
+  /** BLUE *********************************************************** */
+  /** RETRIEVE: user's savedBlue data */
   const getSavedBlue = async () => {
     try {
       const response = await Axios.post("http://localhost:3001/getSavedBlue", {
@@ -77,42 +132,7 @@ export function Saved() {
     }
   };
 
-  const savedRandom = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedRandom", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedRandom: " + response);
-    } catch (error) {
-      console.log("ERROR savedRandom: " + error);
-    }
-  };
-
-  const savedRed = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedRed", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedRed: " + response);
-    } catch (error) {
-      console.log("ERROR savedRed: " + error);
-    }
-  };
-
-  const savedGreen = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedGreen", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedGreen: " + response);
-    } catch (error) {
-      console.log("ERROR savedGreen: " + error);
-    }
-  };
-
+  /** UPDATE: user's savedBlue data */
   const savedBlue = async (hexes: string) => {
     try {
       const response = await Axios.post("http://localhost:3001/savedBlue", {
@@ -125,6 +145,12 @@ export function Saved() {
     }
   };
 
+  /**
+   * @param {string} hexes: retrieved hexes data from MYSQL
+   * reorganizes retrieved hex string into string[][]
+   * where each element is an array of 4 hexes
+   * saved in groupedPalettes
+   */
   function getPalettesHexes(hexes: string) {
     let tempGPalettes: string[][] = [];
     let ogHexesArr = hexes.split(" ");
@@ -142,7 +168,7 @@ export function Saved() {
     setGroupPalettes(tempGPalettes);
   }
 
-  // *******************************************************88
+  /** DETECTS INDEX CHANGE: set temp hexes to be all hexes EXCEPT 'deleted' */
   useEffect(() => {
     async function func1() {
       let tempGPalettes: string[][] = [];
@@ -158,6 +184,7 @@ export function Saved() {
     }
   }, [index]);
 
+  /** DETECTS TEMP CHANGE: update MYSQL {random, red, green, blue} to be temp hexes */
   useEffect(() => {
     console.log("temp: " + temp);
     async function func2() {
@@ -181,9 +208,13 @@ export function Saved() {
     setIndex(-1);
   }, [temp]);
 
-  // ==========================================================================
+  /** *************************************************************************** */
+
   return (
+    /** OUTER FRAME */
+
     <div className={ThemeStyles.outerFrame} style={{ background: "#DD517E" }}>
+      {/** EXIT: return to generate palettes and view saved page */}
       <button
         style={{
           background: "none",
@@ -200,11 +231,16 @@ export function Saved() {
           }}
         />
       </button>
+
+      {/** INNER FRAME */}
+
       <div className={SavedStyles.innerFrame}>
-        <h6 className={PaletteStyles.title}>
-          {/* {user.username}'s */}
-          saved
-        </h6>
+        {/** TITLE SPECIFIES USER'S SAVED */}
+
+        <h6 className={PaletteStyles.title}>{username}'s saved</h6>
+
+        {/** RANDOM BUTTON: shows saved random palettes */}
+
         <motion.div
           whileHover={{ scale: 0.95 }}
           whileTap={{ scale: 0.9 }}
@@ -243,6 +279,9 @@ export function Saved() {
               </div>
             );
           })}
+
+        {/** RED BUTTON: shows saved red palettes */}
+
         <motion.div
           whileHover={{ scale: 0.95 }}
           whileTap={{ scale: 0.9 }}
@@ -284,6 +323,8 @@ export function Saved() {
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
+          {/** GREEN BUTTON: shows saved green palettes */}
+
           <div
             className={SavedStyles.category}
             onClick={() => {
@@ -315,6 +356,9 @@ export function Saved() {
               </div>
             );
           })}
+
+        {/** BLUE BUTTON: shows saved blue palettes */}
+
         <motion.div
           whileHover={{ scale: 0.95 }}
           whileTap={{ scale: 0.9 }}

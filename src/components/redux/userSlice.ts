@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 
+/** STATES: represent the user logged in/out */
 export const userSlice = createSlice({
     name: "user",
     initialState: {

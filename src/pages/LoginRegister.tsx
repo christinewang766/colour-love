@@ -1,27 +1,34 @@
+// @ts-ignore
 import ThemeStyles from "../styling/Theme.module.css";
+// @ts-ignore
 import FormStyles from "../styling/Form.module.css";
+// @ts-ignore
 import PaletteStyles from "../styling/Palette.module.css";
+// @ts-ignore
 import Icon from "../components/images/icon.svg";
-import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../components/redux/userSlice";
+import { Alert } from "react-bootstrap";
 import { motion } from "framer-motion";
 
+/** FEATURES LOGIN AND REGISTER PAGE */
 export function LoginRegister() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [user, setUser] = useState("");
+
   const [submit, setSubmit] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [available, setAvailable] = useState(true);
-  const [user, setUser] = useState("");
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
-  /** SERVER COMMUNICATION ========================================= */
+  /** SERVER COMMUNICATION *********************************************** */
 
+  /** CHECKS: is the username available? OMITS PASSWORD */
   const checkAvailability = () => {
     Axios.post("http://localhost:3001/checkusername", {
       username: usernameReg,
@@ -34,6 +41,7 @@ export function LoginRegister() {
     });
   };
 
+  /** CHECKS: is the user logging in or registering? CHECKS PASSWORD */
   const check = () => {
     Axios.post("http://localhost:3001/login", {
       username: usernameReg,
@@ -47,6 +55,7 @@ export function LoginRegister() {
     });
   };
 
+  /** LOGIN USER WITH CORRECT CREDENTIALS */
   const login = () => {
     Axios.post("http://localhost:3001/login", {
       username: usernameReg,
@@ -60,6 +69,7 @@ export function LoginRegister() {
     });
   };
 
+  /** REGISTER USER WITH CORRECT CREDENTIALS (username MUST be unique) */
   const register = () => {
     Axios.post("http://localhost:3001/register", {
       username: usernameReg,
@@ -69,8 +79,9 @@ export function LoginRegister() {
     });
   };
 
-  /** HELPERS ========================================= */
+  /** HELPERS *********************************************************** */
 
+  /** CHECKS: is the username/password is alphanumeric and > 3 characters long? */
   const isValidSyntax = (str1: string, str2: string) => {
     if (
       /^[a-z0-9]+$/gi.test(str1) &&
@@ -84,25 +95,31 @@ export function LoginRegister() {
     }
   };
 
-  const handleValueChange = () => {
+  /** CHECKS: if the username/password has...correct syntax, availability, and correct credentials  */
+  useEffect(() => {
     isValidSyntax(usernameReg, passwordReg);
     checkAvailability();
     check();
-  };
-
-  useEffect(() => {
-    handleValueChange();
   }, [usernameReg, passwordReg]);
 
+  /** RESETS: clears the username/password inputs */
   const clearForm = () => {
     var getValueU = document.getElementById("username");
     var getValueP = document.getElementById("password");
+    // @ts-ignore
     getValueU.value = "";
+    // @ts-ignore
     getValueP.value = "";
   };
 
+  /** *************************************************************************** */
+
   return (
+    /** OUTER FRAME */
+
     <div className={ThemeStyles.outerFrame}>
+      {/** INNER FRAME */}
+
       <div className={ThemeStyles.innerFrame}>
         <div
           style={{
@@ -112,7 +129,7 @@ export function LoginRegister() {
             flexDirection: "row",
           }}
         >
-          {/* ICON ======================================================*/}
+          {/* ICON: returns to home page */}
           <motion.div
             className="box"
             whileHover={{ scale: 1.1 }}
@@ -126,16 +143,17 @@ export function LoginRegister() {
               alt="icon"
             />
           </motion.div>
-          {/* TITLE ======================================================*/}
+
+          {/* WELCOME TITLE */}
 
           <h1 className={PaletteStyles.title}>Welcome</h1>
         </div>
 
-        {/* FORM BOX ======================================================*/}
+        {/* FORM BOX */}
 
         <div className={FormStyles.container}>
           <div style={{ display: "grid", padding: "20px" }}>
-            {/* USERNAME ======================================================*/}
+            {/* USERNAME LABEL/INPUT */}
 
             <label className={FormStyles.label}>Username:</label>
             <input
@@ -149,7 +167,7 @@ export function LoginRegister() {
               }}
             />
 
-            {/* PASSWORD ======================================================*/}
+            {/* PASSWORD LABEL/INPUT */}
 
             <label style={{ paddingTop: "20px" }} className={FormStyles.label}>
               Password:
@@ -166,7 +184,7 @@ export function LoginRegister() {
             />
           </div>
 
-          {/* SYNTAX ALERT ======================================================*/}
+          {/* SYNTAX ALERT: alphanumeric */}
 
           <Alert
             style={{ maxWidth: "80%" }}
@@ -176,6 +194,9 @@ export function LoginRegister() {
           >
             Only use letters and numbers in your username and password.
           </Alert>
+
+          {/* SYNTAX ALERT: < 3 characters */}
+
           <Alert
             style={{ maxWidth: "80%" }}
             show={!submit}
@@ -184,6 +205,9 @@ export function LoginRegister() {
           >
             Username and password must be more than 3 characters long.
           </Alert>
+
+          {/* AVAILABILITY: existing username */}
+
           <Alert
             style={{ maxWidth: "80%" }}
             show={!available}
@@ -194,10 +218,12 @@ export function LoginRegister() {
             choose another username.
           </Alert>
 
-          {/* LOGIN BUTTON ======================================================*/}
-          {/* disabled: true when can not submit or is not login */}
+          {/** BUTTON CONTAINER */}
 
           <div className={FormStyles.buttonContainer}>
+            {/* LOGIN BUTTON */}
+            {/* disabled: true when can not submit or is not login */}
+
             <motion.div whileHover={{ scale: submit && isLogin ? 0.8 : 1 }}>
               <button
                 disabled={!submit || !isLogin}
@@ -228,8 +254,9 @@ export function LoginRegister() {
               </button>
             </motion.div>
 
-            {/* REGISTRATION BUTTON ======================================================*/}
+            {/* REGISTRATION BUTTON */}
             {/* disabled: true when can not submit or when user is not available */}
+
             <motion.div whileHover={{ scale: submit && available ? 0.8 : 1 }}>
               <button
                 disabled={!submit || !available}

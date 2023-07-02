@@ -1,3 +1,4 @@
+/** MANDATORY TO INTEGRATE MYSQL TO REACT APP */
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
@@ -6,6 +7,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 
+/** SPECIFY DATABASE */
 const db = mysql.createConnection({
   user: "root",
   host: "localhost",
@@ -13,6 +15,7 @@ const db = mysql.createConnection({
   database: "loginsystem",
 });
 
+/** REGISTER NEW USER */
 app.post("/register", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -26,6 +29,7 @@ app.post("/register", (req, res) => {
   );
 });
 
+/** LOGIN EXISTING USER */
 app.post("/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -44,9 +48,9 @@ app.post("/login", (req, res) => {
   );
 });
 
+/** REGISTER: ENSURE THAT THE USERNAME IS NOT ALREADY TAKEN */
 app.post("/checkusername", (req, res) => {
   const username = req.body.username;
-
   db.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
@@ -62,6 +66,7 @@ app.post("/checkusername", (req, res) => {
 });
 
 // RANDOM ==========================================================
+/** RETRIEVE DATA FROM savedRandom */
 app.post("/getSavedRandom", (req, res) => {
   const username = req.body.username;
   db.query(
@@ -77,6 +82,8 @@ app.post("/getSavedRandom", (req, res) => {
     }
   );
 });
+
+/** CHANGE DATA FROM savedRandom */
 app.post("/savedRandom", (req, res) => {
   const hexes = req.body.hexes;
   const username = req.body.username;
@@ -90,6 +97,7 @@ app.post("/savedRandom", (req, res) => {
 });
 
 // RED ==========================================================
+/** RETRIEVE DATA FROM savedRED */
 app.post("/getSavedRed", (req, res) => {
   const username = req.body.username;
   db.query(
@@ -105,6 +113,8 @@ app.post("/getSavedRed", (req, res) => {
     }
   );
 });
+
+/** CHANGE DATA FROM savedRed */
 app.post("/savedRed", (req, res) => {
   const hexes = req.body.hexes;
   const username = req.body.username;
@@ -118,6 +128,7 @@ app.post("/savedRed", (req, res) => {
 });
 
 // GREEN ==========================================================
+/** RETRIEVE DATA FROM savedGreen */
 app.post("/getSavedGreen", (req, res) => {
   const username = req.body.username;
   db.query(
@@ -133,6 +144,8 @@ app.post("/getSavedGreen", (req, res) => {
     }
   );
 });
+
+/** CHANGE DATA FROM savedGreen */
 app.post("/savedGreen", (req, res) => {
   const hexes = req.body.hexes;
   const username = req.body.username;
@@ -146,6 +159,7 @@ app.post("/savedGreen", (req, res) => {
 });
 
 // BLUE ==========================================================
+/** RETRIEVE DATA FROM savedBlue */
 app.post("/getSavedBlue", (req, res) => {
   const username = req.body.username;
   db.query(
@@ -161,6 +175,8 @@ app.post("/getSavedBlue", (req, res) => {
     }
   );
 });
+
+/** CHANGE DATA FROM savedBlue */
 app.post("/savedBlue", (req, res) => {
   const hexes = req.body.hexes;
   const username = req.body.username;
@@ -173,6 +189,7 @@ app.post("/savedBlue", (req, res) => {
   );
 });
 
+/** ENSURE SERVER IS RUNNING */
 app.listen(3001, () => {
   console.log("Yey, your server is running on port 3001!");
 });
