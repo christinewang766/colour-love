@@ -1,4 +1,21 @@
-/* swatch container */
+.outerFrame {
+  margin: 0;
+  padding: 0;
+  background: #7a98ed;
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  border: 5px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @media only screen and (max-width: 400px) {
+    padding-bottom: 20px;
+    height: auto;
+  }
+}
+
 .title {
   font-size: 60px;
   font-style: oblique;

@@ -24,9 +24,9 @@ export function Saved() {
   const [showRed, setShowRed] = useState(false);
   const [showGreen, setShowGreen] = useState(false);
   const [showBlue, setShowBlue] = useState(false);
-  const [index, setIndex] = useState(-1);
+  // const [index, setIndex] = useState(-1);
   const [groupedPalettes, setGroupPalettes] = useState<string[][]>([]);
-  const [temp, setTemp] = useState("");
+  // const [temp, setTemp] = useState("");
 
   /** ========================= SERVER MYSQL CONNECTION ========================= */
 
@@ -49,17 +49,17 @@ export function Saved() {
   };
 
   /** UPDATE: user's savedRandom data */
-  const savedRandom = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedRandom", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedRandom: " + response);
-    } catch (error) {
-      console.log("ERROR savedRandom: " + error);
-    }
-  };
+  // const savedRandom = async (hexes: string) => {
+  //   try {
+  //     const response = await Axios.post("http://localhost:3001/savedRandom", {
+  //       hexes: hexes,
+  //       username: username,
+  //     });
+  //     console.log("RESPONSE savedRandom: " + response);
+  //   } catch (error) {
+  //     console.log("ERROR savedRandom: " + error);
+  //   }
+  // };
 
   /** RED *********************************************************** */
   /** RETRIEVE: user's savedRed data */
@@ -77,17 +77,17 @@ export function Saved() {
   };
 
   /** UPDATE: user's savedRed data */
-  const savedRed = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedRed", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedRed: " + response);
-    } catch (error) {
-      console.log("ERROR savedRed: " + error);
-    }
-  };
+  // const savedRed = async (hexes: string) => {
+  //   try {
+  //     const response = await Axios.post("http://localhost:3001/savedRed", {
+  //       hexes: hexes,
+  //       username: username,
+  //     });
+  //     console.log("RESPONSE savedRed: " + response);
+  //   } catch (error) {
+  //     console.log("ERROR savedRed: " + error);
+  //   }
+  // };
 
   /** GREEN *********************************************************** */
   /** RETRIEVE: user's savedGreen data */
@@ -105,17 +105,17 @@ export function Saved() {
   };
 
   /** UPDATE: user's savedGreen data */
-  const savedGreen = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedGreen", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedGreen: " + response);
-    } catch (error) {
-      console.log("ERROR savedGreen: " + error);
-    }
-  };
+  // const savedGreen = async (hexes: string) => {
+  //   try {
+  //     const response = await Axios.post("http://localhost:3001/savedGreen", {
+  //       hexes: hexes,
+  //       username: username,
+  //     });
+  //     console.log("RESPONSE savedGreen: " + response);
+  //   } catch (error) {
+  //     console.log("ERROR savedGreen: " + error);
+  //   }
+  // };
 
   /** BLUE *********************************************************** */
   /** RETRIEVE: user's savedBlue data */
@@ -133,17 +133,17 @@ export function Saved() {
   };
 
   /** UPDATE: user's savedBlue data */
-  const savedBlue = async (hexes: string) => {
-    try {
-      const response = await Axios.post("http://localhost:3001/savedBlue", {
-        hexes: hexes,
-        username: username,
-      });
-      console.log("RESPONSE savedBlue: " + response);
-    } catch (error) {
-      console.log("ERROR savedBlue: " + error);
-    }
-  };
+  // const savedBlue = async (hexes: string) => {
+  //   try {
+  //     const response = await Axios.post("http://localhost:3001/savedBlue", {
+  //       hexes: hexes,
+  //       username: username,
+  //     });
+  //     console.log("RESPONSE savedBlue: " + response);
+  //   } catch (error) {
+  //     console.log("ERROR savedBlue: " + error);
+  //   }
+  // };
 
   /**
    * @param {string} hexes: retrieved hexes data from MYSQL
@@ -169,44 +169,44 @@ export function Saved() {
   }
 
   /** DETECTS INDEX CHANGE: set temp hexes to be all hexes EXCEPT 'deleted' */
-  useEffect(() => {
-    async function func1() {
-      let tempGPalettes: string[][] = [];
-      for (let i = 0; i < groupedPalettes.length; i++) {
-        if (i !== index) {
-          tempGPalettes.push(groupedPalettes[i]);
-        }
-      }
-      setTemp(tempGPalettes.join().split(",").join(" ") + " ");
-    }
-    if (index !== -1) {
-      func1();
-    }
-  }, [index]);
+  // useEffect(() => {
+  //   async function func1() {
+  //     let tempGPalettes: string[][] = [];
+  //     for (let i = 0; i < groupedPalettes.length; i++) {
+  //       if (i !== index) {
+  //         tempGPalettes.push(groupedPalettes[i]);
+  //       }
+  //     }
+  //     setTemp(tempGPalettes.join().split(",").join(" ") + " ");
+  //   }
+  //   if (index !== -1) {
+  //     func1();
+  //   }
+  // }, [index]);
 
-  /** DETECTS TEMP CHANGE: update MYSQL {random, red, green, blue} to be temp hexes */
-  useEffect(() => {
-    console.log("temp: " + temp);
-    async function func2() {
-      if (showRandom) {
-        savedRandom(temp);
-      }
-      if (showRed) {
-        savedRed(temp);
-      }
-      if (showGreen) {
-        savedGreen(temp);
-      }
-      if (showBlue) {
-        savedBlue(temp);
-      }
-    }
-    if (temp !== "" && temp !== " ") {
-      func2();
-      setTemp("");
-    }
-    setIndex(-1);
-  }, [temp]);
+  // /** DETECTS TEMP CHANGE: update MYSQL {random, red, green, blue} to be temp hexes */
+  // useEffect(() => {
+  //   console.log("temp: " + temp);
+  //   async function func2() {
+  //     if (showRandom) {
+  //       savedRandom(temp);
+  //     }
+  //     if (showRed) {
+  //       savedRed(temp);
+  //     }
+  //     if (showGreen) {
+  //       savedGreen(temp);
+  //     }
+  //     if (showBlue) {
+  //       savedBlue(temp);
+  //     }
+  //   }
+  //   if (temp !== "" && temp !== " ") {
+  //     func2();
+  //     setTemp("");
+  //   }
+  //   setIndex(-1);
+  // }, [temp]);
 
   /** *************************************************************************** */
 
@@ -266,14 +266,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
-                <button
+                {/* <button
                   style={{ background: "none", border: "none" }}
                   onClick={() => {
                     setIndex(i);
                   }}
                 >
                   <ImBin /> delete
-                </button>
+                </button> */}
 
                 <hr style={{ color: "#481D52" }} />
               </div>
@@ -306,14 +306,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
-                <button
+                {/* <button
                   style={{ background: "none", border: "none" }}
                   onClick={() => {
                     setIndex(i);
                   }}
                 >
                   <ImBin /> delete
-                </button>
+                </button> */}
                 <hr style={{ color: "#481D52" }} />
               </div>
             );
@@ -344,14 +344,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
-                <button
+                {/* <button
                   style={{ background: "none", border: "none" }}
                   onClick={() => {
                     setIndex(i);
                   }}
                 >
                   <ImBin /> delete
-                </button>
+                </button> */}
                 <hr style={{ color: "#481D52" }} />
               </div>
             );
@@ -383,14 +383,14 @@ export function Saved() {
             return (
               <div key={i}>
                 <SimplePalette hexes={pal} />
-                <button
+                {/* <button
                   style={{ background: "none", border: "none" }}
                   onClick={() => {
                     setIndex(i);
                   }}
                 >
                   <ImBin /> delete
-                </button>
+                </button> */}
                 <hr style={{ color: "#481D52" }} />
               </div>
             );

@@ -4,10 +4,10 @@ import { Palette } from "./pages/Palette";
 import { Saved } from "./pages/Saved";
 import { Login } from "./pages/Login";
 import LoginRegister from "./pages/LoginRegister";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
-
   return (
     <Routes>
       <Route path="/" element={<Login />} />

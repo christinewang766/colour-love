@@ -228,7 +228,7 @@ export function Palette() {
   return (
     /** OUTER FRAME */
     <div
-      className={ThemeStyles.outerFrame}
+      className={PaletteStyles.outerFrame}
       style={{ border: "5px solid black", background: "#DD517E" }}
     >
       {/** TITLE: specifies {random, red, green, blue} palette generated */}

@@ -139,7 +139,7 @@ export function LoginRegister() {
             <img
               onClick={() => navigate("/")}
               src={Icon}
-              style={{ maxWidth: "80px", paddingRight: "25px" }}
+              style={{ maxWidth: "90px", paddingRight: "25px" }}
               alt="icon"
             />
           </motion.div>
